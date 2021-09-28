@@ -5,4 +5,9 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Annamaria.MostriVsEroi.Core\Annamaria.MostriVsEroi.Core.csproj" />
+    <ProjectReference Include="..\Annamaria.MostriVsEroi.Mock\Annamaria.MostriVsEroi.Mock.csproj" />
+  </ItemGroup>
+
 </Project>
