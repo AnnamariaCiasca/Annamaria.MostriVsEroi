@@ -11,14 +11,15 @@ namespace Annamaria.MostriVsEroi.Core.Entities
         public int Id { get; set; }
         public string Nome { get; set; }
         public int PuntiDanno { get; set; }
+        public int IdCategoria { get; set; }
 
 
-        public Arma(int id, string nome, int puntiDanno)
+        public Arma(int id, string nome, int puntiDanno, int idCategoria)
         {
             Id = id;
             Nome = nome;
             PuntiDanno = puntiDanno;
-
+            IdCategoria = idCategoria;
         }
 
         public Arma()
