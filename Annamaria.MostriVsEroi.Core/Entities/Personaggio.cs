@@ -18,7 +18,7 @@ namespace Annamaria.MostriVsEroi.Core.Entities
 
      public virtual string Print()
         {
-            return $"Id: {Id} - Nome: {Nome} - Categoria: {_Categoria.Nome} - Arma: {_Arma.Nome} - Livello: {Livello} - Punti Vita: {PuntiVita}";
+            return $"Nome: {Nome} - Categoria: {_Categoria.Nome} - Arma: {_Arma.Nome} - Livello: {Livello} - Punti Vita: {PuntiVita}";
         }
 
 

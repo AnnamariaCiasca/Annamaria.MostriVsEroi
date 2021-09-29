@@ -253,10 +253,10 @@ namespace Annamaria.MostriVsEroi
                 else
                 {
                     Console.WriteLine("\nScegli la categoria per il tuo eroe:");
-                  
+
                     List<Categoria> categorie = bl.FetchCategorieEroi();
-                  
-                  
+
+
                     foreach (var item in categorie)
                     {
                         Console.WriteLine($"\nDigita {item.Id} per scegliere la Categoria {item.Nome}");
@@ -274,7 +274,7 @@ namespace Annamaria.MostriVsEroi
 
                     Console.WriteLine("\nScegli l'arma per il tuo eroe:");
                     List<Arma> armi = bl.FetchArmiPerCategoria(categoriaScelta);
-             
+
                     foreach (var item in armi)
                     {
                         Console.WriteLine($"\nDigita {item.Id} per scegliere l'arma {item.Nome} che ha punti danno pari a {item.PuntiDanno}");
@@ -287,7 +287,7 @@ namespace Annamaria.MostriVsEroi
                         Console.WriteLine("Inserire valore corretto!");
                     }
 
-                   Arma armaEroe = bl.GetArmaById(armaScelta);
+                    Arma armaEroe = bl.GetArmaById(armaScelta);
 
                     eroe._Categoria = categoriaEroe;
                     eroe._Arma = armaEroe;
@@ -311,11 +311,12 @@ namespace Annamaria.MostriVsEroi
             } while (continua);
 
 
-}
+        }
 
 
         private static void Gioca(Giocatore giocatore)
         {
+            Console.Clear();
             int scelta;
             Console.WriteLine("Ecco la lista degli eroi con cui puoi giocare:\n");
             List<Eroe> eroi = bl.FetchEroiByGiocatore(giocatore.Id);
@@ -335,13 +336,235 @@ namespace Annamaria.MostriVsEroi
             }
 
             Eroe eroeScelto = bl.GetEroeById(scelta);
-            Mostro mostroScelto = bl.GeneraMostro(eroeScelto.Livello);
+          
+            GenerazioneMostro(eroeScelto, giocatore);
+        }
 
-            Console.WriteLine($"Il tuo eroe {eroeScelto.Nome} dovrà sfidare il mostro: ");
+        private static void GenerazioneMostro(Eroe eroeScelto, Giocatore giocatore)
+        {
+            CalcoloLivello(eroeScelto, giocatore);
+            Mostro mostroScelto = bl.GeneraMostro(eroeScelto.Livello);
+            if(mostroScelto.Livello == 1)
+            {
+                mostroScelto.PuntiVita = 20;
+            }
+            else if (mostroScelto.Livello == 2)
+            {
+                mostroScelto.PuntiVita = 40;
+            }
+            else if (mostroScelto.Livello == 3)
+            {
+                mostroScelto.PuntiVita = 60;
+            }
+            else if (mostroScelto.Livello == 4)
+            {
+                mostroScelto.PuntiVita = 80;
+            }
+            else if (mostroScelto.Livello == 5)
+            {
+                mostroScelto.PuntiVita = 100;
+            }
+
+            Console.WriteLine($"\nIl tuo eroe {eroeScelto.Nome} dovrà sfidare il mostro:\n");
             Console.WriteLine(mostroScelto.Print());
+          
+            Partita(eroeScelto, mostroScelto, giocatore);
+        }
+
+        private static void CalcoloLivello(Eroe eroeScelto, Giocatore giocatore)
+        {
+            if (eroeScelto.PuntiAccumulati <= 29)
+            {
+                eroeScelto.Livello = 1;
+                eroeScelto.PuntiVita = 20;
+                giocatore.IsAdmin = false;
+            }
+            else if (eroeScelto.PuntiAccumulati >= 30 && eroeScelto.PuntiAccumulati <= 59)
+            {
+                eroeScelto.Livello = 2;
+                eroeScelto.PuntiVita = 40;
+                eroeScelto.PuntiAccumulati = 0;
+                giocatore.IsAdmin = false;
+            }
+            else if (eroeScelto.PuntiAccumulati >= 60 && eroeScelto.PuntiAccumulati <= 89)
+            {
+                eroeScelto.Livello = 3;
+                eroeScelto.PuntiVita = 60;
+                eroeScelto.PuntiAccumulati = 0;
+                giocatore.IsAdmin = true;
+            }
+            else if (eroeScelto.PuntiAccumulati >= 90 && eroeScelto.PuntiAccumulati <= 199)
+            {
+                eroeScelto.Livello = 4;
+                eroeScelto.PuntiVita = 80;
+                eroeScelto.PuntiAccumulati = 0;
+                giocatore.IsAdmin = true;
+            }
+            else if (eroeScelto.PuntiAccumulati >= 120)
+            {
+                eroeScelto.Livello = 5;
+                eroeScelto.PuntiVita = 100;
+                eroeScelto.PuntiAccumulati = 0;
+                giocatore.IsAdmin = true;
+            }
+
+        }
+
+        private static void Partita(Eroe eroeScelto, Mostro mostroScelto, Giocatore giocatore)
+        {
+            
+            Console.WriteLine($"\nBene {giocatore.Nome}, giochiamo!");
+            bool continua = true;
+
+            
+            int sceltaAzione;
+            do { 
+                Console.WriteLine("\nDigita 1 per Attaccare il mostro");
+                Console.WriteLine("Digita 2 per Fuggire");
+                Console.WriteLine("Digita 0 per uscire");
+
+                while (!int.TryParse(Console.ReadLine(), out sceltaAzione) || sceltaAzione < 0 || sceltaAzione > 2)
+                {
+                    Console.WriteLine("Inserire valore corretto!");
+                }
+
+                switch (sceltaAzione)
+                {
+                    case 1:
+                        Attacca(eroeScelto, mostroScelto, continua, giocatore);
+
+                        break;
+                    case 2:
+                        //Fuggi();
+                        break;
+                    case 3:
+
+                        break;
+                    case 0:
+                        if (giocatore.IsAdmin == false)
+                        {
+                            MenuNotAdmin(giocatore);
+                        }
+                        else
+                        {
+                            MenuAdmin(giocatore);
+                        }
+                        continua = false;
+                        break;
+                    default:
+                        Console.WriteLine("Scelta errata!");
+                        break;
+                }
+            } while (continua);
         }
 
 
+        
+
+        private static void Attacca(Eroe eroeScelto, Mostro mostroScelto, bool continua, Giocatore giocatore)
+        {
+            Console.Clear();
+            Console.WriteLine($"\nL'eroe {eroeScelto.Nome} attacca il mostro {mostroScelto.Nome}");
+            int vitaRimastaMostro = mostroScelto.PuntiVita - eroeScelto._Arma.PuntiDanno;
+            Console.WriteLine($"\nI punti vita del mostro ora sono: {vitaRimastaMostro}");
+            if (vitaRimastaMostro <= 0)
+            {
+                Console.WriteLine($"\nComplimenti, il tuo eroe ha vinto!");
+                eroeScelto.PuntiAccumulati = eroeScelto.PuntiAccumulati + (mostroScelto.Livello * 10);
+                Console.WriteLine($"Ora il tuo eroe possiede {eroeScelto.PuntiAccumulati}");
+                CalcoloLivello(eroeScelto, giocatore);
+                Console.WriteLine("\nVuoi continuare a giocare? Scrivi Si o No");
+                string risposta = Console.ReadLine().ToUpper();
+                if (risposta == "SI")
+                {
+                    Console.WriteLine("\nDigita 1 per giocare ancora con questo eroe");
+                    Console.WriteLine("Digita 2 per sceglierne uno nuovo");
+                    int nuovo;
+
+                    while (!int.TryParse(Console.ReadLine(), out nuovo) || nuovo < 1 || nuovo > 2)
+                    {
+                        Console.WriteLine("Inserire valore corretto!");
+                    }
+                    switch (nuovo)
+                    {
+                        case 1:
+                            GenerazioneMostro(eroeScelto, giocatore);
+                            break;
+                        case 2:
+                            Gioca(giocatore);
+                            break;
+                    }
+
+                }
+                else
+                {
+
+                    if (giocatore.IsAdmin == false)
+                    {
+                        MenuNotAdmin(giocatore);
+                    }
+                    else
+                    {
+                        MenuAdmin(giocatore);
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine($"\nIl mostro {mostroScelto.Nome} attacca l'eroe {eroeScelto.Nome}");
+                int vitaRimastaEroe = eroeScelto.PuntiVita - mostroScelto._Arma.PuntiDanno;
+                Console.WriteLine($"\nI punti vita del tuo eroe ora sono: {vitaRimastaEroe}");
+              
+
+                if (vitaRimastaEroe <= 0)
+                {
+                    Console.WriteLine($"\nPeccato, il tuo eroe ha perso!");
+                    Console.WriteLine($"Ora il tuo eroe possiede {eroeScelto.PuntiAccumulati}");
+                    CalcoloLivello(eroeScelto, giocatore);
+                    Console.WriteLine("\nVuoi continuare a giocare? Scrivi Si o No");
+                    string risposta = Console.ReadLine().ToUpper();
+                    if (risposta == "SI")
+                    {
+                        Console.WriteLine("\nDigita 1 per giocare ancora con questo eroe");
+                        Console.WriteLine("Digita 2 per sceglierne uno nuovo");
+                        int nuovo;
+
+                        while (!int.TryParse(Console.ReadLine(), out nuovo) || nuovo < 1 || nuovo > 2)
+                        {
+                            Console.WriteLine("Inserire valore corretto!");
+                        }
+                        switch (nuovo)
+                        {
+                            case 1:
+                                GenerazioneMostro(eroeScelto, giocatore);
+                                break;
+                            case 2:
+                                Gioca(giocatore);
+                                break;
+                        }
+
+                    }
+                    else
+                    {
+                        if(giocatore.IsAdmin == false)
+                        {
+                            MenuNotAdmin(giocatore);
+                        }
+                        else
+                        {
+                            MenuAdmin(giocatore);
+                        }
+                    }
+                }
+                else
+                {
+                    mostroScelto.PuntiVita = vitaRimastaMostro;
+                    eroeScelto.PuntiVita = vitaRimastaEroe;
+                    continua = true;
+                }
+
+            }
+        }
     }
 }
 
