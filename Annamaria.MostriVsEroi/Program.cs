@@ -169,20 +169,7 @@ namespace Annamaria.MostriVsEroi
 
         }
 
-        private static void Gioca(Giocatore giocatore)
-        {
-                Console.WriteLine("Ecco la lista degli eroi con cui puoi giocare:\n");
-                List<Eroe> eroi = bl.FetchEroiByGiocatore(giocatore.Id);
-                foreach (var item in eroi)
-                {
-                    Console.WriteLine(item.Print());
-                }
-                Console.WriteLine("\nOra è il momento di fare la tua scelta\n");
-                foreach (var item in eroi)
-                {
-                    Console.WriteLine($"\nDigita {item.Id} per scegliere l'eroe {item.Nome}");
-                }
-        }
+
 
         private static void MenuAdmin(Giocatore giocatore)
         {
@@ -210,7 +197,7 @@ namespace Annamaria.MostriVsEroi
                 switch (scelta)
                 {
                     case 1:
-
+                        Gioca(giocatore);
                         break;
                     case 2:
 
@@ -313,11 +300,48 @@ namespace Annamaria.MostriVsEroi
                     Console.WriteLine("Eroe creato correttamente.");
 
                 }
-                MenuNotAdmin(giocatore);
+                if (giocatore.IsAdmin == false)
+                {
+                    MenuNotAdmin(giocatore);
+                }
+                else
+                {
+                    MenuAdmin(giocatore);
+                }
             } while (continua);
 
 
 }
+
+
+        private static void Gioca(Giocatore giocatore)
+        {
+            int scelta;
+            Console.WriteLine("Ecco la lista degli eroi con cui puoi giocare:\n");
+            List<Eroe> eroi = bl.FetchEroiByGiocatore(giocatore.Id);
+            foreach (var item in eroi)
+            {
+                Console.WriteLine(item.Print());
+            }
+            Console.WriteLine("\nOra è il momento di fare la tua scelta\n");
+            foreach (var item in eroi)
+            {
+                Console.WriteLine($"\nDigita {item.Id} per scegliere l'eroe {item.Nome}");
+            }
+
+            while (!int.TryParse(Console.ReadLine(), out scelta))
+            {
+                Console.WriteLine("Inserire valore corretto!");
+            }
+
+            Eroe eroeScelto = bl.GetEroeById(scelta);
+            Mostro mostroScelto = bl.GeneraMostro(eroeScelto.Livello);
+
+            Console.WriteLine($"Il tuo eroe {eroeScelto.Nome} dovrà sfidare il mostro: ");
+            Console.WriteLine(mostroScelto.Print());
+        }
+
+
     }
 }
 

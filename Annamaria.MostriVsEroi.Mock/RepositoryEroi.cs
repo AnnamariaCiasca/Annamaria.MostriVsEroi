@@ -42,5 +42,10 @@ namespace Annamaria.MostriVsEroi.Mock
         {
             return eroi.Where(e => e.IdGiocatore == idGiocatore).ToList();
         }
+
+        public Eroe GetById(int scelta)
+        {
+            return eroi.Where(e => e.Id == scelta).FirstOrDefault();
+        }
     }
 }

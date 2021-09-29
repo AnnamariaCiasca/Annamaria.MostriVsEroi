@@ -11,5 +11,6 @@ namespace Annamaria.MostriVsEroi.Core.RepositoryInterface
     {
         Eroe AddEroe(Eroe eroe);
         List<Eroe> FetchByGiocatore(int idGiocatore);
+        Eroe GetById(int scelta);
     }
 }

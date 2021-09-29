@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace Annamaria.MostriVsEroi.Core.RepositoryInterface
 {
-    public interface IRepositoryMostri: IRepository<Mostro>
+    public interface IRepositoryMostri : IRepository<Mostro>
     {
+        List<Mostro> GetByLivello(int livello);
     }
 }

@@ -60,6 +60,15 @@ namespace Annamaria.MostriVsEroi.Core.BusinessLayer
             return giocatoriRep.Fetch();
         }
 
+        public Mostro GeneraMostro(int livello)
+        {
+            List<Mostro> mostri = mostriRep.GetByLivello(livello);
+            var random = new Random();
+
+            int index = random.Next(0, mostri.Count);
+            return mostri[index];
+        }
+
         public Arma GetArmaById(int armaScelta)
         {
             return armiRep.GetById(armaScelta);
@@ -68,6 +77,11 @@ namespace Annamaria.MostriVsEroi.Core.BusinessLayer
         public Categoria GetCategoriaById(int categoriaScelta)
         {
             return categorieRep.GetById(categoriaScelta);
+        }
+
+        public Eroe GetEroeById(int scelta)
+        {
+            return eroiRep.GetById(scelta);
         }
 
         public Eroe InserisciEroe(Eroe eroe)
