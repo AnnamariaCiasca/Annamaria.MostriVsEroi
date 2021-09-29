@@ -16,5 +16,31 @@ namespace Annamaria.MostriVsEroi.Mock
             new Eroe { Id = 2, Nome = "Gandalf", _Categoria = new Categoria(2, "Mago", false) , _Arma = new Arma(9, "Onda d’urto", 15, 2), Livello = 3, PuntiVita = 60, PuntiAccumulati = 20, IdGiocatore = 1 },
 
         };
+
+        public Eroe AddEroe(Eroe eroe)
+        {
+
+            if (eroi.Count() == 0)
+            {
+                eroe.Id = 1;
+            }
+            else
+            {
+                eroe.Id = eroi.Max(g => g.Id) + 1;
+            }
+
+            eroi.Add(eroe);
+            return eroe;
+        }
+
+        public List<Eroe> Fetch()
+        {
+            return eroi;
+        }
+
+        public List<Eroe> FetchByGiocatore(int idGiocatore)
+        {
+            return eroi.Where(e => e.IdGiocatore == idGiocatore).ToList();
+        }
     }
 }

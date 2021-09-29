@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 
 namespace Annamaria.MostriVsEroi.Core.RepositoryInterface
 {
-   public interface IRepositoryEroi: IRepository<Eroe>
+    public interface IRepositoryEroi : IRepository<Eroe>
     {
+        Eroe AddEroe(Eroe eroe);
+        List<Eroe> FetchByGiocatore(int idGiocatore);
     }
 }

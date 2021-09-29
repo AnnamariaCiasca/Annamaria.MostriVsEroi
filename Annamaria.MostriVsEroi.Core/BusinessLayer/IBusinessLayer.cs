@@ -12,5 +12,15 @@ namespace Annamaria.MostriVsEroi.Core.BusinessLayer
         Giocatore VerificaAccesso(Giocatore giocatore);
         Giocatore InserisciGiocatore(Giocatore giocatore);
         List<Giocatore> FetchGiocatori();
+        List<Eroe> FetchEroi();
+        List<Categoria> FetchCategorie();
+
+        List<Categoria> FetchCategorieEroi();
+        List<Categoria> FetchCategorieMostri();
+        List<Arma> FetchArmiPerCategoria(int categoriaScelta);
+        Categoria GetCategoriaById(int categoriaScelta);
+        Arma GetArmaById(int armaScelta);
+        Eroe InserisciEroe(Eroe eroe);
+        List<Eroe> FetchEroiByGiocatore(int id);
     }
 }

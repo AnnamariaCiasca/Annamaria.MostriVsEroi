@@ -10,7 +10,7 @@ namespace Annamaria.MostriVsEroi.Core.RepositoryInterface
     public interface IRepositoryGiocatori : IRepository<Giocatore>
     {
         Giocatore GetGiocatoreByNomePassword(Giocatore giocatore);
-        List<Giocatore> Fetch();
+     
         Giocatore AddGiocatore(Giocatore giocatore);
     }
 }

@@ -42,5 +42,20 @@ namespace Annamaria.MostriVsEroi.Mock
             new Arma {Id = 24, Nome = "Tempesta Oscura", PuntiDanno = 15, IdCategoria = 5},
 
         };
+
+        public List<Arma> Fetch()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Arma> FetchArmiPerCategoria(int categoriaScelta)
+        {
+            return armi.Where(a => a.IdCategoria == categoriaScelta).ToList();
+        }
+
+        public Arma GetById(int armaScelta)
+        {
+            return armi.Where(a => a.Id == armaScelta).FirstOrDefault();
+        }
     }
 }

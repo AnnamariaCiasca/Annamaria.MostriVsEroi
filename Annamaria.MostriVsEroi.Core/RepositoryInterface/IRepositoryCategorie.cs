@@ -9,5 +9,8 @@ namespace Annamaria.MostriVsEroi.Core.RepositoryInterface
 {
   public interface IRepositoryCategorie: IRepository<Categoria>
     {
+        List<Categoria> FetchCategorieEroi();
+        List<Categoria> FetchCategorieMostri();
+        Categoria GetById(int categoriaScelta);
     }
 }

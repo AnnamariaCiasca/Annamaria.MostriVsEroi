@@ -8,5 +8,6 @@ namespace Annamaria.MostriVsEroi.Core.RepositoryInterface
 {
     public interface IRepository<T>
     {
+        List<T> Fetch();
     }
 }

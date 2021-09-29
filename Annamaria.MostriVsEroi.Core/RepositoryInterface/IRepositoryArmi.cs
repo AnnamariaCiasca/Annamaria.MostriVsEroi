@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 
 namespace Annamaria.MostriVsEroi.Core.RepositoryInterface
 {
-    public interface IRepositoryArmi: IRepository<Arma>
+    public interface IRepositoryArmi : IRepository<Arma>
     {
+        List<Arma> FetchArmiPerCategoria(int categoriaScelta);
+        Arma GetById(int armaScelta);
     }
 }

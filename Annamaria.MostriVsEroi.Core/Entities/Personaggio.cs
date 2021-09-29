@@ -14,6 +14,14 @@ namespace Annamaria.MostriVsEroi.Core.Entities
         public Arma _Arma { get; set; }  //il personaggio ha una sola arma, che sia mostro o eroe
         public int Livello { get; set; }
         public int PuntiVita { get; set; }
-        
+
+
+     public virtual string Print()
+        {
+            return $"Id: {Id} - Nome: {Nome} - Categoria: {_Categoria.Nome} - Arma: {_Arma.Nome} - Livello: {Livello} - Punti Vita: {PuntiVita}";
+        }
+
+
+
     }
 }

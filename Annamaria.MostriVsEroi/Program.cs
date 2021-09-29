@@ -63,25 +63,25 @@ namespace Annamaria.MostriVsEroi
                 Console.WriteLine("Inserisci il tuo nome utente");
                 nome = Console.ReadLine();
                 giocatore.Nome = nome;
-             
+
                 List<Giocatore> giocatori = bl.FetchGiocatori();
-               
+
                 bool trovato = false;
-              
-                foreach(var item in giocatori) 
-                { 
+
+                foreach (var item in giocatori)
+                {
                     if (item.Nome == nome)
                     {
                         trovato = true;
-                    
+
                         break;
                     }
-                  }
+                }
                 if (trovato)
                 {
                     Console.WriteLine("Username già in uso");
                 }
-                else 
+                else
                 {
                     string password;
                     Console.WriteLine("Inserisci una password");
@@ -99,31 +99,31 @@ namespace Annamaria.MostriVsEroi
 
         private static void Accedi()
         {
-            
-                Console.WriteLine("\nInserisci il tuo nome");
-                string nome = Console.ReadLine();
 
-                Console.WriteLine("Inserisci la tua password");
-                string password = Console.ReadLine();
+            Console.WriteLine("\nInserisci il tuo nome");
+            string nome = Console.ReadLine();
 
-                Giocatore giocatore = new Giocatore(nome, password);
+            Console.WriteLine("Inserisci la tua password");
+            string password = Console.ReadLine();
 
-                giocatore = bl.VerificaAccesso(giocatore);
-                if (giocatore != null && giocatore.IsAuthenticated && giocatore.IsAdmin)
-                {
-                    Console.WriteLine("\nAccesso eseguito");
-                    MenuAdmin(giocatore);
-                }
-                else if (giocatore != null && giocatore.IsAuthenticated && !giocatore.IsAdmin)
-                {
-                    Console.WriteLine("\nAccesso eseguito");
-                    MenuNotAdmin(giocatore);
-                }
-                else if(giocatore == null)
-                {
-                    Console.WriteLine("Username e/o Password errati");
-                }
-          
+            Giocatore giocatore = new Giocatore(nome, password);
+
+            giocatore = bl.VerificaAccesso(giocatore);
+            if (giocatore != null && giocatore.IsAuthenticated && giocatore.IsAdmin)
+            {
+                Console.WriteLine("\nAccesso eseguito");
+                MenuAdmin(giocatore);
+            }
+            else if (giocatore != null && giocatore.IsAuthenticated && !giocatore.IsAdmin)
+            {
+                Console.WriteLine("\nAccesso eseguito");
+                MenuNotAdmin(giocatore);
+            }
+            else if (giocatore == null)
+            {
+                Console.WriteLine("Username e/o Password errati");
+            }
+
         }
 
         private static void MenuNotAdmin(Giocatore giocatore)
@@ -149,13 +149,13 @@ namespace Annamaria.MostriVsEroi
                 switch (scelta)
                 {
                     case 1:
-                        
+                        Gioca(giocatore);
                         break;
                     case 2:
-                        
+                        CreaEroe(giocatore);
                         break;
                     case 3:
-                        
+
                         break;
                     case 0:
                         MenuPrincipale();
@@ -167,6 +167,21 @@ namespace Annamaria.MostriVsEroi
                 }
             } while (continua);
 
+        }
+
+        private static void Gioca(Giocatore giocatore)
+        {
+                Console.WriteLine("Ecco la lista degli eroi con cui puoi giocare:\n");
+                List<Eroe> eroi = bl.FetchEroiByGiocatore(giocatore.Id);
+                foreach (var item in eroi)
+                {
+                    Console.WriteLine(item.Print());
+                }
+                Console.WriteLine("\nOra è il momento di fare la tua scelta\n");
+                foreach (var item in eroi)
+                {
+                    Console.WriteLine($"\nDigita {item.Id} per scegliere l'eroe {item.Nome}");
+                }
         }
 
         private static void MenuAdmin(Giocatore giocatore)
@@ -195,19 +210,19 @@ namespace Annamaria.MostriVsEroi
                 switch (scelta)
                 {
                     case 1:
-                       
+
                         break;
                     case 2:
-                       
+
                         break;
                     case 3:
-                        
+
                         break;
                     case 4:
-                       
+
                         break;
                     case 5:
-                        
+
                         break;
                     case 0:
                         MenuPrincipale();
@@ -219,6 +234,90 @@ namespace Annamaria.MostriVsEroi
                 }
             } while (continua);
         }
+
+        private static void CreaEroe(Giocatore giocatore)
+        {
+            Eroe eroe = new Eroe();
+            bool continua = true;
+            string nome;
+            do
+            {
+                Console.WriteLine("Inserisci un nome per il tuo eroe");
+                nome = Console.ReadLine();
+                eroe.Nome = nome;
+
+                List<Eroe> eroi = bl.FetchEroi();
+
+                bool trovato = false;
+
+                foreach (var item in eroi)
+                {
+                    if (item.Nome == nome)
+                    {
+                        trovato = true;
+
+                        break;
+                    }
+                }
+                if (trovato)
+                {
+                    Console.WriteLine("Nome già in uso per un altro eroe");
+                }
+                else
+                {
+                    Console.WriteLine("\nScegli la categoria per il tuo eroe:");
+                  
+                    List<Categoria> categorie = bl.FetchCategorieEroi();
+                  
+                  
+                    foreach (var item in categorie)
+                    {
+                        Console.WriteLine($"\nDigita {item.Id} per scegliere la Categoria {item.Nome}");
+                    }
+
+                    int categoriaScelta;
+
+                    while (!int.TryParse(Console.ReadLine(), out categoriaScelta))
+                    {
+                        Console.WriteLine("Inserire valore corretto!");
+                    }
+
+                    Categoria categoriaEroe = bl.GetCategoriaById(categoriaScelta);
+
+
+                    Console.WriteLine("\nScegli l'arma per il tuo eroe:");
+                    List<Arma> armi = bl.FetchArmiPerCategoria(categoriaScelta);
+             
+                    foreach (var item in armi)
+                    {
+                        Console.WriteLine($"\nDigita {item.Id} per scegliere l'arma {item.Nome} che ha punti danno pari a {item.PuntiDanno}");
+                    }
+
+                    int armaScelta;
+
+                    while (!int.TryParse(Console.ReadLine(), out armaScelta))
+                    {
+                        Console.WriteLine("Inserire valore corretto!");
+                    }
+
+                   Arma armaEroe = bl.GetArmaById(armaScelta);
+
+                    eroe._Categoria = categoriaEroe;
+                    eroe._Arma = armaEroe;
+                    eroe.Livello = 1;
+                    eroe.PuntiAccumulati = 0;
+                    eroe.PuntiVita = 20;
+                    eroe.IdGiocatore = giocatore.Id;
+
+                    eroe = bl.InserisciEroe(eroe);
+                    Console.WriteLine("Eroe creato correttamente.");
+
+                }
+                MenuNotAdmin(giocatore);
+            } while (continua);
+
+
+}
     }
 }
 

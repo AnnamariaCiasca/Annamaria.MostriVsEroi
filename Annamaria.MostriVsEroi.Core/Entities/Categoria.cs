@@ -22,5 +22,12 @@ namespace Annamaria.MostriVsEroi.Core.Entities
         public Categoria()
         {
         }
+
+        public string Print()
+        {
+            return $"Id: {Id} - Nome {Nome} ";
+        }
+
+
     }
 }

@@ -22,5 +22,25 @@ namespace Annamaria.MostriVsEroi.Mock
             new Categoria {Id = 5, Nome = "Signore del male", Flag = true},
 
         };
+
+        public List<Categoria> Fetch()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Categoria> FetchCategorieEroi()
+        {
+            return categorie.Where(c => c.Flag == false).ToList();
+        }
+
+        public List<Categoria> FetchCategorieMostri()
+        {
+            return categorie.Where(c => c.Flag == true).ToList();
+        }
+
+        public Categoria GetById(int categoriaScelta)
+        {
+            return categorie.Where(c => c.Id == categoriaScelta).FirstOrDefault();
+        }
     }
 }

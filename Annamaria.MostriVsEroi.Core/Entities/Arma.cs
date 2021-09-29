@@ -25,6 +25,11 @@ namespace Annamaria.MostriVsEroi.Core.Entities
         public Arma()
         {
         }
+
+        public string Print()
+        {
+            return $"Id: {Id} - Nome {Nome} - Punti Danno: {PuntiDanno} ";
+        }
     }
 }
 

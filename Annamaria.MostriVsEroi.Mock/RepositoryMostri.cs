@@ -16,5 +16,10 @@ namespace Annamaria.MostriVsEroi.Mock
             new Mostro {Id = 2, Nome = "Voldemort", _Categoria = new Categoria(5, "Signore del male", true), _Arma = new Arma(19, "Alabarda del drago", 30, 5), Livello = 5, PuntiVita = 100 }
        
         };
+
+        public List<Mostro> Fetch()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

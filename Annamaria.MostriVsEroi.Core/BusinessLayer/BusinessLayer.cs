@@ -25,9 +25,54 @@ namespace Annamaria.MostriVsEroi.Core.BusinessLayer
             mostriRep = mostri;
         }
 
+    
+
+        public List<Arma> FetchArmiPerCategoria(int categoriaScelta)
+        {
+           return armiRep.FetchArmiPerCategoria(categoriaScelta);
+        }
+
+        public List<Categoria> FetchCategorie()
+        {
+            return categorieRep.Fetch();
+        }
+        public List<Categoria> FetchCategorieEroi()
+        {
+            return categorieRep.FetchCategorieEroi();
+        }
+        public List<Categoria> FetchCategorieMostri()
+        {
+            return categorieRep.FetchCategorieMostri();
+        }
+
+        public List<Eroe> FetchEroi()
+        {
+            return eroiRep.Fetch();
+        }
+
+        public List<Eroe> FetchEroiByGiocatore(int idGiocatore)
+        {
+            return eroiRep.FetchByGiocatore(idGiocatore);
+        }
+
         public List<Giocatore> FetchGiocatori()
         {
             return giocatoriRep.Fetch();
+        }
+
+        public Arma GetArmaById(int armaScelta)
+        {
+            return armiRep.GetById(armaScelta);
+        }
+
+        public Categoria GetCategoriaById(int categoriaScelta)
+        {
+            return categorieRep.GetById(categoriaScelta);
+        }
+
+        public Eroe InserisciEroe(Eroe eroe)
+        {
+            return eroiRep.AddEroe(eroe);
         }
 
         public Giocatore InserisciGiocatore(Giocatore giocatore)
