@@ -23,11 +23,13 @@ namespace Annamaria.MostriVsEroi
 
             do
             {
+                Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("\nMenu principale\n");
 
                 Console.WriteLine("Digita 1 per accedere");
                 Console.WriteLine("Digita 2 per registrati");
                 Console.WriteLine("Digita 0 per uscire");
+                Console.ForegroundColor = ConsoleColor.White;
 
                 while (!int.TryParse(Console.ReadLine(), out scelta) || scelta < 0 || scelta > 2)
                 {
@@ -134,12 +136,14 @@ namespace Annamaria.MostriVsEroi
             do
             {
                 Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine($"Ciao {giocatore.Nome}");
 
                 Console.WriteLine("Digita 1 per giocare");
                 Console.WriteLine("Digita 2 per creare un nuovo eroe");
                 Console.WriteLine("Digita 3 per eliminare un eroe");
                 Console.WriteLine("Digita 0 per uscire");
+                Console.ForegroundColor = ConsoleColor.White;
 
                 while (!int.TryParse(Console.ReadLine(), out scelta) || scelta < 0 || scelta > 4)
                 {
@@ -179,6 +183,7 @@ namespace Annamaria.MostriVsEroi
             do
             {
                 Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine($"Ciao {giocatore.Nome}, sei un Admin!");
 
                 Console.WriteLine("Digita 1 per giocare");
@@ -187,6 +192,7 @@ namespace Annamaria.MostriVsEroi
                 Console.WriteLine("Digita 4 per creare un nuovo mostro");
                 Console.WriteLine("Digita 5 per mostrare la classifica globale");
                 Console.WriteLine("Digita 0 per uscire");
+                Console.ForegroundColor = ConsoleColor.White;
 
 
                 while (!int.TryParse(Console.ReadLine(), out scelta) || scelta < 0 || scelta > 5)
@@ -322,7 +328,9 @@ namespace Annamaria.MostriVsEroi
             List<Eroe> eroi = bl.FetchEroiByGiocatore(giocatore.Id);
             foreach (var item in eroi)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(item.Print());
+                Console.ForegroundColor = ConsoleColor.White;
             }
             Console.WriteLine("\nOra è il momento di fare la tua scelta\n");
             foreach (var item in eroi)
@@ -366,7 +374,9 @@ namespace Annamaria.MostriVsEroi
             }
 
             Console.WriteLine($"\nIl tuo eroe {eroeScelto.Nome} dovrà sfidare il mostro:\n");
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(mostroScelto.Print());
+            Console.ForegroundColor = ConsoleColor.White;
 
             Partita(eroeScelto, mostroScelto, giocatore);
         }
@@ -449,10 +459,11 @@ namespace Annamaria.MostriVsEroi
             int sceltaAzione;
             do
             {
+                Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("\nDigita 1 per Attaccare il mostro");
                 Console.WriteLine("Digita 2 per Fuggire");
                 Console.WriteLine("Digita 0 per uscire");
-
+                Console.ForegroundColor = ConsoleColor.White;
                 while (!int.TryParse(Console.ReadLine(), out sceltaAzione) || sceltaAzione < 0 || sceltaAzione > 2)
                 {
                     Console.WriteLine("Inserire valore corretto!");
@@ -495,15 +506,20 @@ namespace Annamaria.MostriVsEroi
             bool fugaRiuscita = Convert.ToBoolean(uscita);
             if (!fugaRiuscita)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Non sei riuscito a fuggire");
+                Console.ForegroundColor = ConsoleColor.White;
                 AttaccaMostro(eroeScelto, mostroScelto, continua, giocatore);
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Fuga riuscita");
+                Console.ForegroundColor = ConsoleColor.White;
                 eroeScelto.PuntiAccumulati = eroeScelto.PuntiAccumulati - (mostroScelto.Livello * 5);
                 Console.WriteLine($"Ora il tuo eroe possiede {eroeScelto.PuntiAccumulati} punti");
-                continua = true;
+                
+                ContinuareGioco(eroeScelto, mostroScelto, giocatore);
             }
 
         }
@@ -518,45 +534,14 @@ namespace Annamaria.MostriVsEroi
             Console.WriteLine($"\nI punti vita del mostro ora sono: {vitaRimastaMostro}");
             if (vitaRimastaMostro <= 0)
             {
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"\nComplimenti, il tuo eroe ha vinto!");
                 eroeScelto.PuntiAccumulati = eroeScelto.PuntiAccumulati + (mostroScelto.Livello * 10);
                 Console.WriteLine($"Ora il tuo eroe possiede {eroeScelto.PuntiAccumulati} punti");
-                CalcoloLivello(eroeScelto, giocatore);
-                Console.WriteLine("\nVuoi continuare a giocare? Scrivi Si o No");
-                string risposta = Console.ReadLine().ToUpper();
-                if (risposta == "SI")
-                {
-                    Console.WriteLine("\nDigita 1 per giocare ancora con questo eroe");
-                    Console.WriteLine("Digita 2 per sceglierne uno nuovo");
-                    int nuovo;
+                Console.ForegroundColor = ConsoleColor.White;
+           
 
-                    while (!int.TryParse(Console.ReadLine(), out nuovo) || nuovo < 1 || nuovo > 2)
-                    {
-                        Console.WriteLine("Inserire valore corretto!");
-                    }
-                    switch (nuovo)
-                    {
-                        case 1:
-                            GenerazioneMostro(eroeScelto, giocatore);
-                            break;
-                        case 2:
-                            Gioca(giocatore);
-                            break;
-                    }
-
-                }
-                else
-                {
-
-                    if (giocatore.IsAdmin == false)
-                    {
-                        MenuNotAdmin(giocatore);
-                    }
-                    else
-                    {
-                        MenuAdmin(giocatore);
-                    }
-                }
+                ContinuareGioco(eroeScelto, mostroScelto, giocatore);
             }
             else
             {
@@ -579,41 +564,8 @@ namespace Annamaria.MostriVsEroi
             {
                 Console.WriteLine($"\nPeccato, il tuo eroe ha perso!");
                 Console.WriteLine($"Ora il tuo eroe possiede {eroeScelto.PuntiAccumulati} punti");
-                CalcoloLivello(eroeScelto, giocatore);
-                Console.WriteLine("\nVuoi continuare a giocare? Scrivi Si o No");
-                string risposta = Console.ReadLine().ToUpper();
-                if (risposta == "SI")
-                {
-                    Console.WriteLine("\nDigita 1 per giocare ancora con questo eroe");
-                    Console.WriteLine("Digita 2 per sceglierne uno nuovo");
-                    int nuovo;
-
-                    while (!int.TryParse(Console.ReadLine(), out nuovo) || nuovo < 1 || nuovo > 2)
-                    {
-                        Console.WriteLine("Inserire valore corretto!");
-                    }
-                    switch (nuovo)
-                    {
-                        case 1:
-                            GenerazioneMostro(eroeScelto, giocatore);
-                            break;
-                        case 2:
-                            Gioca(giocatore);
-                            break;
-                    }
-
-                }
-                else
-                {
-                    if (giocatore.IsAdmin == false)
-                    {
-                        MenuNotAdmin(giocatore);
-                    }
-                    else
-                    {
-                        MenuAdmin(giocatore);
-                    }
-                }
+          
+                ContinuareGioco(eroeScelto, mostroScelto, giocatore);
             }
             else
             {
@@ -624,6 +576,47 @@ namespace Annamaria.MostriVsEroi
 
         }
 
+     private static void ContinuareGioco(Eroe eroeScelto, Mostro mostroScelto, Giocatore giocatore)
+        {
+            CalcoloLivello(eroeScelto, giocatore);
+            Console.WriteLine("\n\nVuoi continuare a giocare? Scrivi Si o No");
+            string risposta = Console.ReadLine().ToUpper();
+            if (risposta == "SI")
+            {
+                Console.WriteLine("\nDigita 1 per giocare ancora con questo eroe");
+                Console.WriteLine("Digita 2 per sceglierne uno nuovo");
+                int nuovo;
+
+                while (!int.TryParse(Console.ReadLine(), out nuovo) || nuovo < 1 || nuovo > 2)
+                {
+                    Console.WriteLine("Inserire valore corretto!");
+                }
+                switch (nuovo)
+                {
+                    case 1:
+                        GenerazioneMostro(eroeScelto, giocatore);
+                        break;
+                    case 2:
+                        Gioca(giocatore);
+                        break;
+                }
+
+            }
+            else
+            {
+
+                if (giocatore.IsAdmin == false)
+                {
+                    MenuNotAdmin(giocatore);
+                }
+                else
+                {
+                    MenuAdmin(giocatore);
+                }
+            }
+        }
     }
-}
+
+    }
+
 
