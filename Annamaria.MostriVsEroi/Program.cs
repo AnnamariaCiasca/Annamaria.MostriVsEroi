@@ -137,7 +137,7 @@ namespace Annamaria.MostriVsEroi
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine($"\nCiao {giocatore.Nome}");
-               
+
                 Console.WriteLine("Digita 1 per giocare");
                 Console.WriteLine("Digita 2 per creare un nuovo eroe");
                 Console.WriteLine("Digita 3 per eliminare un eroe");
@@ -172,7 +172,7 @@ namespace Annamaria.MostriVsEroi
 
         }
 
-       
+
         private static void MenuAdmin(Giocatore giocatore)
         {
             bool continua = true;
@@ -180,7 +180,7 @@ namespace Annamaria.MostriVsEroi
 
             do
             {
-               
+
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine($"Ciao {giocatore.Nome}, sei un Admin!");
 
@@ -251,7 +251,7 @@ namespace Annamaria.MostriVsEroi
             bl.EliminaEroe(eroeDaCancellare);
 
             Console.WriteLine("L'eroe selezionato è stato eliminato correttamente");
-           
+
         }
 
 
@@ -379,6 +379,7 @@ namespace Annamaria.MostriVsEroi
         {
             CalcoloLivello(eroeScelto, giocatore);
             Mostro mostroScelto = bl.GeneraMostro(eroeScelto.Livello);
+            // Arianna -> Perchè? I tuoi mostri hanno già i punti vita come proprietà
             if (mostroScelto.Livello == 1)
             {
                 mostroScelto.PuntiVita = 20;
@@ -428,7 +429,7 @@ namespace Annamaria.MostriVsEroi
                     eroeScelto.Livello = 2;
                     eroeScelto.PuntiVita = 40;
                 }
-              
+
                 giocatore.IsAdmin = false;
             }
             else if (eroeScelto.PuntiAccumulati >= 60 && eroeScelto.PuntiAccumulati <= 89)
@@ -545,7 +546,7 @@ namespace Annamaria.MostriVsEroi
                 Console.ForegroundColor = ConsoleColor.White;
                 eroeScelto.PuntiAccumulati = eroeScelto.PuntiAccumulati - (mostroScelto.Livello * 5);
                 Console.WriteLine($"Ora il tuo eroe possiede {eroeScelto.PuntiAccumulati} punti");
-                
+
                 ContinuareGioco(eroeScelto, mostroScelto, giocatore);
             }
 
@@ -566,7 +567,7 @@ namespace Annamaria.MostriVsEroi
                 eroeScelto.PuntiAccumulati = eroeScelto.PuntiAccumulati + (mostroScelto.Livello * 10);
                 Console.WriteLine($"Ora il tuo eroe possiede {eroeScelto.PuntiAccumulati} punti");
                 Console.ForegroundColor = ConsoleColor.White;
-           
+
 
                 ContinuareGioco(eroeScelto, mostroScelto, giocatore);
             }
@@ -591,7 +592,7 @@ namespace Annamaria.MostriVsEroi
             {
                 Console.WriteLine($"\nPeccato, il tuo eroe ha perso!");
                 Console.WriteLine($"Ora il tuo eroe possiede {eroeScelto.PuntiAccumulati} punti");
-          
+
                 ContinuareGioco(eroeScelto, mostroScelto, giocatore);
             }
             else
@@ -603,7 +604,7 @@ namespace Annamaria.MostriVsEroi
 
         }
 
-     private static void ContinuareGioco(Eroe eroeScelto, Mostro mostroScelto, Giocatore giocatore)
+        private static void ContinuareGioco(Eroe eroeScelto, Mostro mostroScelto, Giocatore giocatore)
         {
             CalcoloLivello(eroeScelto, giocatore);
             Console.WriteLine("\n\nVuoi continuare a giocare? Scrivi Si o No");
@@ -644,6 +645,6 @@ namespace Annamaria.MostriVsEroi
         }
     }
 
-    }
+}
 
 
