@@ -135,10 +135,9 @@ namespace Annamaria.MostriVsEroi
 
             do
             {
-                Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine($"Ciao {giocatore.Nome}");
-
+                Console.WriteLine($"\nCiao {giocatore.Nome}");
+               
                 Console.WriteLine("Digita 1 per giocare");
                 Console.WriteLine("Digita 2 per creare un nuovo eroe");
                 Console.WriteLine("Digita 3 per eliminare un eroe");
@@ -159,7 +158,7 @@ namespace Annamaria.MostriVsEroi
                         CreaEroe(giocatore);
                         break;
                     case 3:
-
+                        EliminaEroe(giocatore);
                         break;
                     case 0:
                         MenuPrincipale();
@@ -173,8 +172,7 @@ namespace Annamaria.MostriVsEroi
 
         }
 
-
-
+       
         private static void MenuAdmin(Giocatore giocatore)
         {
             bool continua = true;
@@ -182,7 +180,7 @@ namespace Annamaria.MostriVsEroi
 
             do
             {
-                Console.Clear();
+               
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine($"Ciao {giocatore.Nome}, sei un Admin!");
 
@@ -209,7 +207,7 @@ namespace Annamaria.MostriVsEroi
                         CreaEroe(giocatore);
                         break;
                     case 3:
-
+                        EliminaEroe(giocatore);
                         break;
                     case 4:
 
@@ -227,6 +225,35 @@ namespace Annamaria.MostriVsEroi
                 }
             } while (continua);
         }
+
+        private static void EliminaEroe(Giocatore giocatore)
+        {
+            Console.Clear();
+            int scelta;
+            Console.WriteLine("Ecco la lista degli eroi:\n");
+            List<Eroe> eroi = bl.FetchEroiByGiocatore(giocatore.Id);
+            foreach (var item in eroi)
+            {
+                Console.WriteLine(item.Print());
+            }
+            Console.WriteLine("\n");
+            foreach (var item in eroi)
+            {
+                Console.WriteLine($"Digita {item.Id} per eliminare l'eroe {item.Nome}");
+            }
+
+            while (!int.TryParse(Console.ReadLine(), out scelta))
+            {
+                Console.WriteLine("Inserire valore corretto!");
+            }
+
+            Eroe eroeDaCancellare = bl.GetEroeById(scelta);
+            bl.EliminaEroe(eroeDaCancellare);
+
+            Console.WriteLine("L'eroe selezionato è stato eliminato correttamente");
+           
+        }
+
 
         private static void CreaEroe(Giocatore giocatore)
         {
@@ -335,7 +362,7 @@ namespace Annamaria.MostriVsEroi
             Console.WriteLine("\nOra è il momento di fare la tua scelta\n");
             foreach (var item in eroi)
             {
-                Console.WriteLine($"\nDigita {item.Id} per scegliere l'eroe {item.Nome}");
+                Console.WriteLine($"Digita {item.Id} per scegliere l'eroe {item.Nome}");
             }
 
             while (!int.TryParse(Console.ReadLine(), out scelta))

@@ -25,7 +25,10 @@ namespace Annamaria.MostriVsEroi.Core.BusinessLayer
             mostriRep = mostri;
         }
 
-    
+        public void EliminaEroe(Eroe eroeDaCancellare)
+        {
+            eroiRep.Elimina(eroeDaCancellare);
+        }
 
         public List<Arma> FetchArmiPerCategoria(int categoriaScelta)
         {
@@ -87,6 +90,7 @@ namespace Annamaria.MostriVsEroi.Core.BusinessLayer
         public Eroe InserisciEroe(Eroe eroe)
         {
             return eroiRep.AddEroe(eroe);
+
         }
 
         public Giocatore InserisciGiocatore(Giocatore giocatore)

@@ -33,6 +33,11 @@ namespace Annamaria.MostriVsEroi.Mock
             return eroe;
         }
 
+        public void Elimina(Eroe eroeDaCancellare)
+        {
+            eroi.Remove(eroeDaCancellare);
+        }
+
         public List<Eroe> Fetch()
         {
             return eroi;
