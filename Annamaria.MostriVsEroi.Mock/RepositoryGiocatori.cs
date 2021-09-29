@@ -15,5 +15,32 @@ namespace Annamaria.MostriVsEroi.Mock
             new Giocatore{Id = 1, Nome="Annamaria", Password="Anna00", IsAdmin = true, IsAuthenticated = true},
             new Giocatore{Id = 2, Nome="Mario", Password="Mario77", IsAdmin = false, IsAuthenticated = true},
         };
+
+        public Giocatore AddGiocatore(Giocatore giocatore)
+        {
+            if(giocatori.Count() == 0)
+            {
+                giocatore.Id = 1;
+            }
+            else
+            {
+                giocatore.Id = giocatori.Max(g => g.Id) + 1;
+            }
+
+            giocatori.Add(giocatore);
+            return giocatore;
+        }
+
+        public List<Giocatore> Fetch()
+        {
+            return giocatori;
+        }
+
+        public Giocatore GetGiocatoreByNomePassword(Giocatore giocatore)
+        {
+            return giocatori.Where(g => g.Nome == giocatore.Nome && g.Password == giocatore.Password).SingleOrDefault();
+        }
+
+
     }
 }

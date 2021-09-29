@@ -17,5 +17,11 @@ namespace Annamaria.MostriVsEroi.Core.Entities
         public Giocatore()
         {
         }
+
+        public Giocatore(string nome, string password)
+        {
+            Nome = nome;
+            Password = password;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Annamaria.MostriVsEroi.Core.RepositoryInterface;
+﻿using Annamaria.MostriVsEroi.Core.Entities;
+using Annamaria.MostriVsEroi.Core.RepositoryInterface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,5 +25,26 @@ namespace Annamaria.MostriVsEroi.Core.BusinessLayer
             mostriRep = mostri;
         }
 
+        public List<Giocatore> FetchGiocatori()
+        {
+            return giocatoriRep.Fetch();
+        }
+
+        public Giocatore InserisciGiocatore(Giocatore giocatore)
+        {
+            return giocatoriRep.AddGiocatore(giocatore);
+        }
+
+        public Giocatore VerificaAccesso(Giocatore giocatore)
+        {
+            giocatore = giocatoriRep.GetGiocatoreByNomePassword(giocatore);
+            if(giocatore != null)
+            {
+                giocatore.IsAuthenticated = true;
+                giocatore.IsAdmin = false;
+            }
+
+            return giocatore;
+        }
     }
 }
