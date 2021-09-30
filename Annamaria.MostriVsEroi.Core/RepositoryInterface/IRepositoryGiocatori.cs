@@ -12,5 +12,6 @@ namespace Annamaria.MostriVsEroi.Core.RepositoryInterface
         Giocatore GetGiocatoreByNomePassword(Giocatore giocatore);
      
         Giocatore AddGiocatore(Giocatore giocatore);
+        string UserById(int idGiocatore);
     }
 }

@@ -14,6 +14,9 @@ namespace Annamaria.MostriVsEroi.Mock
         {
             new Giocatore{Id = 1, Nome="Annamaria", Password="Anna00", IsAdmin = true, IsAuthenticated = true},
             new Giocatore{Id = 2, Nome="Mario", Password="Mario77", IsAdmin = false, IsAuthenticated = true},
+            new Giocatore{Id = 3, Nome="Luigi", Password="Gigi11", IsAdmin = false, IsAuthenticated = true},
+            new Giocatore{Id = 4, Nome="Maria", Password="1234", IsAdmin = true, IsAuthenticated = true},
+            new Giocatore{Id = 5, Nome="Sara", Password="5678", IsAdmin = false, IsAuthenticated = true},
         };
 
         public Giocatore AddGiocatore(Giocatore giocatore)
@@ -41,6 +44,11 @@ namespace Annamaria.MostriVsEroi.Mock
             return giocatori.Where(g => g.Nome == giocatore.Nome && g.Password == giocatore.Password).SingleOrDefault();
         }
 
+        public string UserById(int idGiocatore)
+        {
+         
+            return giocatori.Where(g => g.Id == idGiocatore).Select(g => g.Nome).FirstOrDefault();
 
+        }
     }
 }

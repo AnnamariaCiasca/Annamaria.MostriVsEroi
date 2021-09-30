@@ -13,5 +13,6 @@ namespace Annamaria.MostriVsEroi.Core.RepositoryInterface
         List<Eroe> FetchByGiocatore(int idGiocatore);
         Eroe GetById(int scelta);
         void Elimina(Eroe eroeDaCancellare);
+        List<Eroe> FetchPerPunti();
     }
 }

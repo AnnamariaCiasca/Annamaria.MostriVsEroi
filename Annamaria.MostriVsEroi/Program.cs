@@ -136,7 +136,7 @@ namespace Annamaria.MostriVsEroi
             do
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine($"\nCiao {giocatore.Nome}");
+                Console.WriteLine($"\nCiao {giocatore.Nome}!\n");
 
                 Console.WriteLine("Digita 1 per giocare");
                 Console.WriteLine("Digita 2 per creare un nuovo eroe");
@@ -182,7 +182,7 @@ namespace Annamaria.MostriVsEroi
             {
 
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine($"Ciao {giocatore.Nome}, sei un Admin!");
+                Console.WriteLine($"\nCiao {giocatore.Nome}, sei un Admin!\n");
 
                 Console.WriteLine("Digita 1 per giocare");
                 Console.WriteLine("Digita 2 per creare un nuovo eroe");
@@ -210,10 +210,10 @@ namespace Annamaria.MostriVsEroi
                         EliminaEroe(giocatore);
                         break;
                     case 4:
-
+                        CreaMostro(giocatore);
                         break;
                     case 5:
-
+                        MostraClassifica();
                         break;
                     case 0:
                         MenuPrincipale();
@@ -224,6 +224,25 @@ namespace Annamaria.MostriVsEroi
                         break;
                 }
             } while (continua);
+        }
+
+        private static void MostraClassifica()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("--------------------------------------Classifica---------------------------------------");
+            Console.ForegroundColor = ConsoleColor.White;
+            List<Eroe> eroiClassifica = bl.FetchEroiPerPunti();
+            string username;
+            int i = 1;
+            foreach (var item in eroiClassifica)
+            {
+                username = bl.UserGiocatoreById(item.IdGiocatore);
+                Console.WriteLine($"{i}) Eroe: {item.Nome} - Livello: {item.Livello} - Punti: {item.PuntiAccumulati} - Giocatore: {username}");
+                i++;
+            }
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("----------------------------------------------------------------------------------------");
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
         private static void EliminaEroe(Giocatore giocatore)
@@ -414,7 +433,7 @@ namespace Annamaria.MostriVsEroi
 
                     Arma armaMostro = bl.GetArmaById(armaScelta);
 
-                    Console.WriteLine("Scegli il Livello per il tuo mostro, da 1 a 5:");
+                    Console.WriteLine("\nScegli il Livello per il tuo mostro, da 1 a 5:");
                     int livelloScelto;
                     while (!int.TryParse(Console.ReadLine(), out livelloScelto) || livelloScelto < 1 || livelloScelto > 5) ;
                     {
@@ -444,7 +463,7 @@ namespace Annamaria.MostriVsEroi
                     mostro._Arma = armaMostro;
                     mostro.Livello = livelloScelto;
                     mostro = bl.InserisciMostro(mostro);
-                    Console.WriteLine("Mostro creato correttamente.");
+                    Console.WriteLine("\nMostro creato correttamente.");
 
                 }
                 if (giocatore.IsAdmin == false)
@@ -493,7 +512,7 @@ namespace Annamaria.MostriVsEroi
         {
             CalcoloLivello(eroeScelto, giocatore);
             Mostro mostroScelto = bl.GeneraMostro(eroeScelto.Livello);
-            // Arianna -> Perchè? I tuoi mostri hanno già i punti vita come proprietà
+            // Arianna -> Perchè? I tuoi mostri hanno già i punti vita come proprietà 
             if (mostroScelto.Livello == 1)
             {
                 mostroScelto.PuntiVita = 20;

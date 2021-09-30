@@ -58,6 +58,11 @@ namespace Annamaria.MostriVsEroi.Core.BusinessLayer
             return eroiRep.FetchByGiocatore(idGiocatore);
         }
 
+        public List<Eroe> FetchEroiPerPunti()
+        {
+            return eroiRep.FetchPerPunti();
+        }
+
         public List<Giocatore> FetchGiocatori()
         {
             return giocatoriRep.Fetch();
@@ -106,6 +111,12 @@ namespace Annamaria.MostriVsEroi.Core.BusinessLayer
         public Mostro InserisciMostro(Mostro mostro)
         {
             return mostriRep.AddMostro(mostro);
+        }
+
+        public string UserGiocatoreById(int idGiocatore)
+        {
+            string username = giocatoriRep.UserById(idGiocatore);
+            return username;
         }
 
         public Giocatore VerificaAccesso(Giocatore giocatore)
