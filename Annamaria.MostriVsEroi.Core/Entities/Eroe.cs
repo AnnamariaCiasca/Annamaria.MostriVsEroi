@@ -17,6 +17,7 @@ namespace Annamaria.MostriVsEroi.Core.Entities
 
         }
 
+      
         public override string Print()
         {
             return $"{base.Print()} - Punti Accumulati: {PuntiAccumulati} ";

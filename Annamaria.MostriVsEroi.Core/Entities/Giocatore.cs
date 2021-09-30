@@ -23,5 +23,14 @@ namespace Annamaria.MostriVsEroi.Core.Entities
             Nome = nome;
             Password = password;
         }
+
+        public Giocatore(int id, string nome, string password, bool isAuthenticated, bool isAdmin)
+        {
+            Id = id;
+            Nome = nome;
+            Password = password;
+            IsAuthenticated = isAuthenticated;
+            IsAdmin = isAdmin;
+        }
     }
 }

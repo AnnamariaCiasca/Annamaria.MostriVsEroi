@@ -68,7 +68,8 @@ namespace Annamaria.MostriVsEroi
                 nome = Console.ReadLine();
                 giocatore.Nome = nome;
 
-                List<Giocatore> giocatori = bl.FetchGiocatori();
+                //List<Giocatore> giocatori = bl.FetchGiocatori();
+                List<Giocatore> giocatori = dbm.FetchGiocatori();
 
                 bool trovato = false;
 
@@ -91,7 +92,10 @@ namespace Annamaria.MostriVsEroi
                     Console.WriteLine("Inserisci una password");
                     password = Console.ReadLine();
                     giocatore.Password = password;
-                    giocatore = bl.InserisciGiocatore(giocatore);
+
+                    //giocatore = bl.InserisciGiocatore(giocatore);
+                      giocatore = dbm.InserisciGiocatore(giocatore);
+
                     Console.Write("Registrazione avvenuta con successo");
                     continua = false;
                 }
@@ -111,8 +115,10 @@ namespace Annamaria.MostriVsEroi
             string password = Console.ReadLine();
 
             Giocatore giocatore = new Giocatore(nome, password);
-
-            giocatore = bl.VerificaAccesso(giocatore);
+            
+            //giocatore = bl.VerificaAccesso(giocatore);
+            giocatore = dbm.VerificaAccesso(giocatore);
+         
             if (giocatore != null && giocatore.IsAuthenticated && giocatore.IsAdmin)
             {
                 Console.WriteLine("\nAccesso eseguito");
@@ -231,12 +237,14 @@ namespace Annamaria.MostriVsEroi
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("--------------------------------------Classifica---------------------------------------");
             Console.ForegroundColor = ConsoleColor.White;
-            List<Eroe> eroiClassifica = bl.FetchEroiPerPunti();
+            //List<Eroe> eroiClassifica = bl.FetchEroiPerPunti();
+            List<Eroe> eroiClassifica = dbm.FetchEroiPerPunti();
             string username;
             int i = 1;
             foreach (var item in eroiClassifica)
             {
-                username = bl.UserGiocatoreById(item.IdGiocatore);
+                //username = bl.UserGiocatoreById(item.IdGiocatore);
+                username = dbm.UserGiocatoreById(item.IdGiocatore);
                 Console.WriteLine($"{i}) Eroe: {item.Nome} - Livello: {item.Livello} - Punti: {item.PuntiAccumulati} - Giocatore: {username}");
                 i++;
             }
@@ -250,7 +258,7 @@ namespace Annamaria.MostriVsEroi
             Console.Clear();
             int scelta;
             Console.WriteLine("Ecco la lista degli eroi:\n");
-            List<Eroe> eroi = bl.FetchEroiByGiocatore(giocatore.Id);
+            List<Eroe> eroi = dbm.FetchEroiByGiocatore(giocatore.Id);  //non funziona perché mi passa sempre IdGiocatore = 0, sbaglio qualcosa nel metodo  GetGiocatoreByNomePassword in AdoRepositoryEroe
             foreach (var item in eroi)
             {
                 Console.WriteLine(item.Print());
@@ -266,8 +274,8 @@ namespace Annamaria.MostriVsEroi
                 Console.WriteLine("Inserire valore corretto!");
             }
 
-            Eroe eroeDaCancellare = bl.GetEroeById(scelta);
-            bl.EliminaEroe(eroeDaCancellare);
+            Eroe eroeDaCancellare = dbm.GetEroeById(scelta);
+            dbm.EliminaEroe(eroeDaCancellare);
 
             Console.WriteLine("L'eroe selezionato è stato eliminato correttamente");
 
@@ -435,7 +443,7 @@ namespace Annamaria.MostriVsEroi
 
                     Console.WriteLine("\nScegli il Livello per il tuo mostro, da 1 a 5:");
                     int livelloScelto;
-                    while (!int.TryParse(Console.ReadLine(), out livelloScelto) || livelloScelto < 1 || livelloScelto > 5) ;
+                    while (!int.TryParse(Console.ReadLine(), out livelloScelto) || livelloScelto < 1 || livelloScelto > 5);
                     {
                         Console.WriteLine("Inserire valore corretto!");
                     }

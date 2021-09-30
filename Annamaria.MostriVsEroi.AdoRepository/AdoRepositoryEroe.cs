@@ -40,7 +40,18 @@ namespace Annamaria.MostriVsEroi.AdoRepository
 
         public void Elimina(Eroe eroeDaCancellare)
         {
-            throw new NotImplementedException();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand();
+                command.Connection = connection;
+                command.CommandType = System.Data.CommandType.Text;
+                command.CommandText = "DELETE from dbo.Eroe where Id = @id";
+                command.Parameters.AddWithValue("@id", eroeDaCancellare.Id);
+
+                command.ExecuteNonQuery();
+            }
         }
 
         public List<Eroe> Fetch()
@@ -50,6 +61,8 @@ namespace Annamaria.MostriVsEroi.AdoRepository
 
         public List<Eroe> FetchByGiocatore(int idGiocatore)
         {
+            List<Eroe> eroi = new List<Eroe>();
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -58,16 +71,16 @@ namespace Annamaria.MostriVsEroi.AdoRepository
                 command.Connection = connection;
                 command.CommandType = System.Data.CommandType.Text;
                 command.CommandText = "" +
-                    "SELECT dbo.Eroe.Nome as NomeEroe, dbo.Categoria.Nome as Categoria, dbo.Arma.Nome as Arma, dbo.Eroe.Livello, dbo.Eroe.PuntiVita " +
-                    "FROM dbo.Eroe  " +
-                    "JOIN dbo.Categoria ON dbo.Categoria.Id = dbo.Eroe.IdCategoria" +
-                    "JOIN dbo.Arma ON dbo.Arma.Id = dbo.Eroe.IdArma" +
-                    "WHERE dbo.Eroe.IdGiocatore = @idGiocatore";
+                    " SELECT dbo.Eroe.Id, dbo.Eroe.Nome, dbo.Categoria.Nome, dbo.Arma.Nome, dbo.Eroe.Livello, dbo.Eroe.PuntiVita, dbo.Eroe.PuntiAccumulati " +
+                    " FROM dbo.Eroe  " +
+                    " JOIN dbo.Categoria ON dbo.Categoria.Id = dbo.Eroe.IdCategoria" +
+                    " JOIN dbo.Arma ON dbo.Arma.Id = dbo.Eroe.IdArma" +
+                    " WHERE dbo.Eroe.IdGiocatore = @idGiocatore";
+                command.Parameters.AddWithValue("@idGiocatore", idGiocatore);
 
                 SqlDataReader reader = command.ExecuteReader();
 
-                List<Eroe> eroi = new List<Eroe>();
-
+           
 
                 while (reader.Read())
                 {
@@ -83,10 +96,6 @@ namespace Annamaria.MostriVsEroi.AdoRepository
                     eroe.Livello = (int)reader["Livello"];
                     eroe.PuntiVita = (int)reader["PuntiVita"];
                     eroe.PuntiAccumulati = (int)reader["PuntiAccumulati"];
-                    giocatore.Id = (int)reader["IdGiocatore"];
-
-
-
 
                     eroi.Add(eroe);
 
@@ -97,12 +106,71 @@ namespace Annamaria.MostriVsEroi.AdoRepository
 
         public List<Eroe> FetchPerPunti()
         {
-            throw new NotImplementedException();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand();
+                command.Connection = connection;
+                command.CommandType = System.Data.CommandType.Text;
+                command.CommandText =  "" +
+                    "SELECT TOP(10) dbo.Eroe.Nome, dbo.Eroe.Livello, dbo.Eroe.PuntiAccumulati, dbo.Eroe.IdGiocatore" +
+                    " FROM dbo.Eroe " +
+                    " ORDER BY dbo.Eroe.Livello DESC, dbo.Eroe.PuntiAccumulati DESC";
+                  
+                SqlDataReader reader = command.ExecuteReader();
+
+                List<Eroe> eroi = new List<Eroe>();
+
+
+                while (reader.Read())
+                {
+                    Eroe eroe = new Eroe();
+                    
+                    eroe.Nome = (string)reader["Nome"];
+                    eroe.Livello = (int)reader["Livello"];
+                    eroe.PuntiAccumulati = (int)reader["PuntiAccumulati"];
+                    eroe.IdGiocatore = (int)reader["IdGiocatore"];
+                    eroi.Add(eroe);
+
+                }
+                return eroi;
+            }
         }
 
         public Eroe GetById(int scelta)
         {
-            throw new NotImplementedException();
+            Eroe eroe = new Eroe();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand();
+                command.Connection = connection;
+                command.CommandType = System.Data.CommandType.Text;
+                command.CommandText = "SELECT * FROM dbo.Eroe WHERE dbo.Eroe.Id = @scelta";
+                command.Parameters.AddWithValue("@scelta", scelta);
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Categoria categoria = new Categoria();
+                    Giocatore giocatore = new Giocatore();
+                    Arma arma = new Arma();
+
+                    eroe.Nome = (string)reader["Nome"];
+                    categoria.Id = (int)reader["IdCategoria"];
+                    arma.Id = (int)reader["IdArma"];
+                    eroe.Livello = (int)reader["Livello"];
+                    eroe.PuntiVita = (int)reader["PuntiVita"];
+                    eroe.PuntiAccumulati = (int)reader["PuntiAccumulati"];
+                    giocatore.Id = (int)reader["IdGiocatore"];
+                }
+                return eroe;
+            }
+
         }
     }
 }
