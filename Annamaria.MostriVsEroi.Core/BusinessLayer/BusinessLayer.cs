@@ -16,6 +16,7 @@ namespace Annamaria.MostriVsEroi.Core.BusinessLayer
         private readonly IRepositoryGiocatori giocatoriRep;
         private readonly IRepositoryMostri mostriRep;
 
+      
         public BusinessLayer(IRepositoryArmi armi, IRepositoryCategorie categorie, IRepositoryEroi eroi, IRepositoryGiocatori giocatori, IRepositoryMostri mostri)
         {
             armiRep = armi;
@@ -97,9 +98,9 @@ namespace Annamaria.MostriVsEroi.Core.BusinessLayer
             return eroiRep.GetById(scelta);
         }
 
-        public Eroe InserisciEroe(Eroe eroe)
+        public Eroe InserisciEroe(Eroe eroe, int categoriaScelta, int armaScelta, Giocatore giocatore)
         {
-            return eroiRep.AddEroe(eroe);
+            return eroiRep.AddEroe(eroe, categoriaScelta, armaScelta, giocatore);
 
         }
 

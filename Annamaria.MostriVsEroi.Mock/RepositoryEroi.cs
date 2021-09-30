@@ -22,7 +22,7 @@ namespace Annamaria.MostriVsEroi.Mock
 
         };
 
-        public Eroe AddEroe(Eroe eroe)
+        public Eroe AddEroe(Eroe eroe, int categoriaScelta, int armaScelta, Giocatore giocatore)
         {
 
             if (eroi.Count() == 0)
@@ -56,7 +56,7 @@ namespace Annamaria.MostriVsEroi.Mock
         public List<Eroe> FetchPerPunti()
         {
             
-            return eroi.OrderByDescending(e => e.Livello).ThenByDescending(e => e.PuntiAccumulati).ToList();
+            return eroi.OrderByDescending(e => e.Livello).ThenByDescending(e => e.PuntiAccumulati).Take(10).ToList();
         }
 
         public Eroe GetById(int scelta)

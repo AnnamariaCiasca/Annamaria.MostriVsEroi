@@ -1,4 +1,5 @@
-﻿using Annamaria.MostriVsEroi.Core.BusinessLayer;
+﻿using Annamaria.MostriVsEroi.AdoRepository;
+using Annamaria.MostriVsEroi.Core.BusinessLayer;
 using Annamaria.MostriVsEroi.Core.Entities;
 using Annamaria.MostriVsEroi.Mock;
 using System;
@@ -9,6 +10,7 @@ namespace Annamaria.MostriVsEroi
     class Program
     {
         private static readonly IBusinessLayer bl = new BusinessLayer(new RepositoryArmi(), new RepositoryCategorie(), new RepositoryEroi(), new RepositoryGiocatori(), new RepositoryMostri());
+        private static readonly DBManager dbm = new DBManager();
         static void Main(string[] args)
         {
             Console.WriteLine("Benvenuto!");
@@ -177,10 +179,8 @@ namespace Annamaria.MostriVsEroi
         {
             bool continua = true;
             int scelta;
-
             do
             {
-
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine($"\nCiao {giocatore.Nome}, sei un Admin!\n");
 
@@ -348,7 +348,7 @@ namespace Annamaria.MostriVsEroi
                     eroe.PuntiVita = 20;
                     eroe.IdGiocatore = giocatore.Id;
 
-                    eroe = bl.InserisciEroe(eroe);
+                    eroe = dbm.InserisciEroe(eroe, categoriaScelta, armaScelta, giocatore);
                     Console.WriteLine("Eroe creato correttamente.");
 
                 }
@@ -548,13 +548,11 @@ namespace Annamaria.MostriVsEroi
 
             switch (lvl)
             {
-
                 case 1:
                     if (eroeScelto.PuntiAccumulati <= 29)
                     {
                         eroeScelto.Livello = 1;
                         eroeScelto.PuntiVita = 20;
-
                     }
                     else if (eroeScelto.PuntiAccumulati >= 30 && eroeScelto.PuntiAccumulati <= 59)
                     {
@@ -562,7 +560,6 @@ namespace Annamaria.MostriVsEroi
                         eroeScelto.Livello = 2;
                         eroeScelto.PuntiVita = 40;
                         Console.WriteLine($"Complimenti, grazie ai punti che hai accumulato, il tuo eroe {eroeScelto.Nome} è passato al Livello successivo.\nOra il tuo eroe è di Livello {eroeScelto.Livello}!");
-
                     }
                     break;
                 case 2:
@@ -731,6 +728,7 @@ namespace Annamaria.MostriVsEroi
 
         private static void AttaccaMostro(Eroe eroeScelto, Mostro mostroScelto, bool continua, Giocatore giocatore)
         {
+            Console.WriteLine("\n------------------------------------------------------------------");
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"\nIl mostro {mostroScelto.Nome} attacca l'eroe {eroeScelto.Nome}");
             Console.ForegroundColor = ConsoleColor.White;

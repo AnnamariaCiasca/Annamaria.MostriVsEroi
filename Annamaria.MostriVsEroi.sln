@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Annamaria.MostriVsEroi.ConsoleApp", "Annamaria.MostriVsEroi\Annamaria.MostriVsEroi.ConsoleApp.csproj", "{57E96F9F-B73C-40AA-A04C-263F68510E6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Annamaria.MostriVsEroi.ConsoleApp", "Annamaria.MostriVsEroi\Annamaria.MostriVsEroi.ConsoleApp.csproj", "{57E96F9F-B73C-40AA-A04C-263F68510E6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Annamaria.MostriVsEroi.Core", "Annamaria.MostriVsEroi.Core\Annamaria.MostriVsEroi.Core.csproj", "{2BCD0E27-137D-4FAF-8920-06DEC22FD622}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Annamaria.MostriVsEroi.Core", "Annamaria.MostriVsEroi.Core\Annamaria.MostriVsEroi.Core.csproj", "{2BCD0E27-137D-4FAF-8920-06DEC22FD622}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Annamaria.MostriVsEroi.Mock", "Annamaria.MostriVsEroi.Mock\Annamaria.MostriVsEroi.Mock.csproj", "{85052864-A36B-4194-A753-F8FBB53703E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Annamaria.MostriVsEroi.Mock", "Annamaria.MostriVsEroi.Mock\Annamaria.MostriVsEroi.Mock.csproj", "{85052864-A36B-4194-A753-F8FBB53703E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Annamaria.MostriVsEroi.AdoRepository", "Annamaria.MostriVsEroi.AdoRepository\Annamaria.MostriVsEroi.AdoRepository.csproj", "{D0E7311D-458C-4584-9CD7-1E15B5198F26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{85052864-A36B-4194-A753-F8FBB53703E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85052864-A36B-4194-A753-F8FBB53703E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{85052864-A36B-4194-A753-F8FBB53703E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0E7311D-458C-4584-9CD7-1E15B5198F26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0E7311D-458C-4584-9CD7-1E15B5198F26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0E7311D-458C-4584-9CD7-1E15B5198F26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0E7311D-458C-4584-9CD7-1E15B5198F26}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

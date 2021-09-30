@@ -20,7 +20,7 @@ namespace Annamaria.MostriVsEroi.Core.BusinessLayer
         List<Arma> FetchArmiPerCategoria(int categoriaScelta);
         Categoria GetCategoriaById(int categoriaScelta);
         Arma GetArmaById(int armaScelta);
-        Eroe InserisciEroe(Eroe eroe);
+        Eroe InserisciEroe(Eroe eroe, int categoriaScelta, int armaScelta, Giocatore giocatore);
         List<Eroe> FetchEroiByGiocatore(int id);
         Eroe GetEroeById(int scelta);
         Mostro GeneraMostro(int livello);

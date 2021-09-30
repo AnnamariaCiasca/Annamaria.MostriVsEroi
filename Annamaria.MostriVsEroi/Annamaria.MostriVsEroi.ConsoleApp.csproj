@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Annamaria.MostriVsEroi.AdoRepository\Annamaria.MostriVsEroi.AdoRepository.csproj" />
     <ProjectReference Include="..\Annamaria.MostriVsEroi.Core\Annamaria.MostriVsEroi.Core.csproj" />
     <ProjectReference Include="..\Annamaria.MostriVsEroi.Mock\Annamaria.MostriVsEroi.Mock.csproj" />
   </ItemGroup>
