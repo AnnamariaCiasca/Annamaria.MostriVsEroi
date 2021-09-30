@@ -534,7 +534,7 @@ namespace Annamaria.MostriVsEroi
                 mostroScelto.PuntiVita = 100;
             }
 
-            Console.WriteLine($"\nIl tuo eroe {eroeScelto.Nome} dovrà sfidare il mostro:\n");
+            Console.WriteLine($"\nIl tuo eroe {eroeScelto.Nome} dovrà sfidare il mostro:");
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(mostroScelto.Print());
             Console.ForegroundColor = ConsoleColor.White;
@@ -544,70 +544,87 @@ namespace Annamaria.MostriVsEroi
 
         private static void CalcoloLivello(Eroe eroeScelto, Giocatore giocatore)
         {
-            if (eroeScelto.PuntiAccumulati <= 29)
-            {
-                eroeScelto.Livello = 1;
-                eroeScelto.PuntiVita = 20;
-                giocatore.IsAdmin = false;
-            }
-            else if (eroeScelto.PuntiAccumulati >= 30 && eroeScelto.PuntiAccumulati <= 59)
-            {
-                if (eroeScelto.Livello == 1)
-                {
-                    eroeScelto.PuntiAccumulati = 0;  //se sono entrata in questo ciclo adesso l'eroe ha livello 1, perciò vuol dire che sta cambiando livello, quindi azzero punti
-                    eroeScelto.Livello = 2;
-                }
-                else
-                {
-                    eroeScelto.Livello = 2;
-                    eroeScelto.PuntiVita = 40;
-                }
+            int lvl = eroeScelto.Livello;
 
-                giocatore.IsAdmin = false;
-            }
-            else if (eroeScelto.PuntiAccumulati >= 60 && eroeScelto.PuntiAccumulati <= 89)
+            switch (lvl)
             {
-                if (eroeScelto.Livello == 2)
-                {
-                    eroeScelto.PuntiAccumulati = 0;
-                    eroeScelto.Livello = 3;
-                }
-                else
-                {
-                    eroeScelto.Livello = 3;
-                    eroeScelto.PuntiVita = 60;
-                }
-                giocatore.IsAdmin = true;
-            }
-            else if (eroeScelto.PuntiAccumulati >= 90 && eroeScelto.PuntiAccumulati <= 199)
-            {
-                if (eroeScelto.Livello == 3)
-                {
-                    eroeScelto.PuntiAccumulati = 0;
-                    eroeScelto.Livello = 4;
-                }
-                else
-                {
-                    eroeScelto.Livello = 4;
-                    eroeScelto.PuntiVita = 80;
-                }
-                giocatore.IsAdmin = true;
-            }
-            else if (eroeScelto.PuntiAccumulati >= 120)
-            {
-                if (eroeScelto.Livello == 4)
-                {
-                    eroeScelto.PuntiAccumulati = 0;
-                    eroeScelto.Livello = 5;
-                }
-                else
-                {
-                    eroeScelto.Livello = 5;
-                    eroeScelto.PuntiVita = 100;
-                }
-                giocatore.IsAdmin = true;
-            }
 
+                case 1:
+                    if (eroeScelto.PuntiAccumulati <= 29)
+                    {
+                        eroeScelto.Livello = 1;
+                        eroeScelto.PuntiVita = 20;
+
+                    }
+                    else if (eroeScelto.PuntiAccumulati >= 30 && eroeScelto.PuntiAccumulati <= 59)
+                    {
+                        eroeScelto.PuntiAccumulati = 0;  //se sono entrata in questo ciclo adesso l'eroe ha livello 1, perciò vuol dire che sta cambiando livello, quindi azzero punti
+                        eroeScelto.Livello = 2;
+                        eroeScelto.PuntiVita = 40;
+                        Console.WriteLine($"Complimenti, grazie ai punti che hai accumulato, il tuo eroe {eroeScelto.Nome} è passato al Livello successivo.\nOra il tuo eroe è di Livello {eroeScelto.Livello}!");
+
+                    }
+                    break;
+                case 2:
+                    if (eroeScelto.PuntiAccumulati <= 59)
+                    {
+                        eroeScelto.Livello = 2;
+                        eroeScelto.PuntiVita = 40;
+
+                    }
+
+                    else if (eroeScelto.PuntiAccumulati >= 60 && eroeScelto.PuntiAccumulati <= 89)
+                    {
+                        eroeScelto.PuntiAccumulati = 0;
+                        eroeScelto.Livello = 3;
+                        eroeScelto.PuntiVita = 60;
+                        Console.WriteLine($"Complimenti, grazie ai punti che hai accumulato, il tuo eroe {eroeScelto.Nome} è passato al Livello successivo.\nOra il tuo eroe è di Livello {eroeScelto.Livello}!");
+                        giocatore.IsAdmin = true;
+                    }
+                    break;
+                case 3:
+                    if (eroeScelto.PuntiAccumulati <= 89)
+                    {
+                        eroeScelto.Livello = 3;
+                        eroeScelto.PuntiVita = 60;
+                        giocatore.IsAdmin = true;
+                    }
+                    else if (eroeScelto.PuntiAccumulati >= 90 && eroeScelto.PuntiAccumulati <= 199)
+                    {
+                        eroeScelto.PuntiAccumulati = 0;
+                        eroeScelto.Livello = 4;
+                        eroeScelto.PuntiVita = 80;
+                        Console.WriteLine($"Complimenti, grazie ai punti che hai accumulato, il tuo eroe {eroeScelto.Nome} è passato al Livello successivo.\nOra il tuo eroe è di Livello {eroeScelto.Livello}!");
+                        giocatore.IsAdmin = true;
+                    }
+                    break;
+                case 4:
+                    if (eroeScelto.PuntiAccumulati <= 199)
+                    {
+                        eroeScelto.Livello = 4;
+                        eroeScelto.PuntiVita = 80;
+                        giocatore.IsAdmin = true;
+                    }
+                    else if (eroeScelto.PuntiAccumulati >= 120)
+                    {
+                        eroeScelto.PuntiAccumulati = 0;
+                        eroeScelto.Livello = 5;
+                        eroeScelto.PuntiVita = 100;
+                        Console.WriteLine($"Complimenti, grazie ai punti che hai accumulato, il tuo eroe {eroeScelto.Nome} è passato al Livello successivo.\nOra il tuo eroe è di Livello {eroeScelto.Livello}!");
+                        giocatore.IsAdmin = true;
+                    }
+                    break;
+                case 5:
+                    if (eroeScelto.PuntiAccumulati >= 120)
+                    {
+
+                        eroeScelto.Livello = 5;
+                        eroeScelto.PuntiVita = 100;
+                        giocatore.IsAdmin = true;
+                    }
+                    break;
+
+            }
         }
 
         private static void Partita(Eroe eroeScelto, Mostro mostroScelto, Giocatore giocatore)
@@ -755,6 +772,10 @@ namespace Annamaria.MostriVsEroi
                 switch (nuovo)
                 {
                     case 1:
+                        Console.WriteLine("\nOk, giocherai ancora con l'eroe");
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine($"{eroeScelto.Print()}\n");
+                        Console.ForegroundColor = ConsoleColor.White;
                         GenerazioneMostro(eroeScelto, giocatore);
                         break;
                     case 2:
