@@ -7,10 +7,14 @@ using System.Collections.Generic;
 
 namespace Annamaria.MostriVsEroi
 {
+
+    // Arianna -> non devi fare il dbManager, usi sempre il bl... riscrivi solo le classi repository
     class Program
     {
-        private static readonly IBusinessLayer bl = new BusinessLayer(new RepositoryArmi(), new RepositoryCategorie(), new RepositoryEroi(), new RepositoryGiocatori(), new RepositoryMostri());
-        private static readonly DBManager dbm = new DBManager();
+        //private static readonly IBusinessLayer bl = new BusinessLayer(new RepositoryArmi(), new RepositoryCategorie(), new RepositoryEroi(), new RepositoryGiocatori(), new RepositoryMostri());
+        private static readonly IBusinessLayer bl = new BusinessLayer(new AdoRepositoryArma(), new AdoRepositoryCategoria(), new AdoRepositoryEroe(), new AdoRepositoryGiocatore(), new AdoRepositoryMostro());
+
+        //private static readonly DBManager dbm = new DBManager();
         static void Main(string[] args)
         {
             Console.WriteLine("Benvenuto!");
@@ -68,8 +72,8 @@ namespace Annamaria.MostriVsEroi
                 nome = Console.ReadLine();
                 giocatore.Nome = nome;
 
-                //List<Giocatore> giocatori = bl.FetchGiocatori();
-                List<Giocatore> giocatori = dbm.FetchGiocatori();
+                List<Giocatore> giocatori = bl.FetchGiocatori();
+                //List<Giocatore> giocatori = dbm.FetchGiocatori();
 
                 bool trovato = false;
 
@@ -93,8 +97,8 @@ namespace Annamaria.MostriVsEroi
                     password = Console.ReadLine();
                     giocatore.Password = password;
 
-                    //giocatore = bl.InserisciGiocatore(giocatore);
-                      giocatore = dbm.InserisciGiocatore(giocatore);
+                    giocatore = bl.InserisciGiocatore(giocatore);
+                      //giocatore = dbm.InserisciGiocatore(giocatore);
 
                     Console.Write("Registrazione avvenuta con successo");
                     continua = false;
@@ -116,8 +120,8 @@ namespace Annamaria.MostriVsEroi
 
             Giocatore giocatore = new Giocatore(nome, password);
             
-            //giocatore = bl.VerificaAccesso(giocatore);
-            giocatore = dbm.VerificaAccesso(giocatore);
+            giocatore = bl.VerificaAccesso(giocatore);
+            //giocatore = dbm.VerificaAccesso(giocatore);
          
             if (giocatore != null && giocatore.IsAuthenticated && giocatore.IsAdmin)
             {
@@ -237,14 +241,14 @@ namespace Annamaria.MostriVsEroi
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("--------------------------------------Classifica---------------------------------------");
             Console.ForegroundColor = ConsoleColor.White;
-            //List<Eroe> eroiClassifica = bl.FetchEroiPerPunti();
-            List<Eroe> eroiClassifica = dbm.FetchEroiPerPunti();
+            List<Eroe> eroiClassifica = bl.FetchEroiPerPunti();
+            //List<Eroe> eroiClassifica = dbm.FetchEroiPerPunti();
             string username;
             int i = 1;
             foreach (var item in eroiClassifica)
             {
-                //username = bl.UserGiocatoreById(item.IdGiocatore);
-                username = dbm.UserGiocatoreById(item.IdGiocatore);
+                username = bl.UserGiocatoreById(item.IdGiocatore);
+                //username = dbm.UserGiocatoreById(item.IdGiocatore);
                 Console.WriteLine($"{i}) Eroe: {item.Nome} - Livello: {item.Livello} - Punti: {item.PuntiAccumulati} - Giocatore: {username}");
                 i++;
             }
@@ -258,7 +262,10 @@ namespace Annamaria.MostriVsEroi
             Console.Clear();
             int scelta;
             Console.WriteLine("Ecco la lista degli eroi:\n");
-            List<Eroe> eroi = dbm.FetchEroiByGiocatore(giocatore.Id);  //non funziona perché mi passa sempre IdGiocatore = 0, sbaglio qualcosa nel metodo  GetGiocatoreByNomePassword in AdoRepositoryEroe
+            // Arianna -> TODO
+
+            List<Eroe> eroi = bl.FetchEroiByGiocatore(giocatore.Id);  //non funziona perché mi passa sempre IdGiocatore = 0, sbaglio qualcosa nel metodo  GetGiocatoreByNomePassword in AdoRepositoryEroe
+                                                                    // Arianna -> prova a mandarmi l'estazione del db che verifico
             foreach (var item in eroi)
             {
                 Console.WriteLine(item.Print());
@@ -274,8 +281,8 @@ namespace Annamaria.MostriVsEroi
                 Console.WriteLine("Inserire valore corretto!");
             }
 
-            Eroe eroeDaCancellare = dbm.GetEroeById(scelta);
-            dbm.EliminaEroe(eroeDaCancellare);
+            Eroe eroeDaCancellare = bl.GetEroeById(scelta);
+            bl.EliminaEroe(eroeDaCancellare);
 
             Console.WriteLine("L'eroe selezionato è stato eliminato correttamente");
 
@@ -356,7 +363,8 @@ namespace Annamaria.MostriVsEroi
                     eroe.PuntiVita = 20;
                     eroe.IdGiocatore = giocatore.Id;
 
-                    eroe = dbm.InserisciEroe(eroe, categoriaScelta, armaScelta, giocatore);
+                    eroe = bl.InserisciEroe(eroe, categoriaScelta, armaScelta, giocatore);
+                    //eroe = dbm.InserisciEroe(eroe, categoriaScelta, armaScelta, giocatore);
                     Console.WriteLine("Eroe creato correttamente.");
 
                 }

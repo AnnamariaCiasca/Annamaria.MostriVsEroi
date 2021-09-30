@@ -94,7 +94,7 @@ namespace Annamaria.MostriVsEroi.AdoRepository
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    //var id = (int)reader["IdGiocatore"];
+                    giocatore.Id = (int)reader["IdGiocatore"];
                     giocatore.IsAdmin = (bool)reader["IsAdmin"];
                     giocatore.IsAuthenticated = (bool)reader["IsAuthenticated"];
                 }
