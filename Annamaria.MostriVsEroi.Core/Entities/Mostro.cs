@@ -10,7 +10,8 @@ namespace Annamaria.MostriVsEroi.Core.Entities
     {
         public Mostro()
         {
-
+           
         }
     }
+
 }

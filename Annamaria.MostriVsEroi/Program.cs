@@ -347,6 +347,120 @@ namespace Annamaria.MostriVsEroi
         }
 
 
+        private static void CreaMostro(Giocatore giocatore)
+        {
+            Mostro mostro = new Mostro();
+            bool continua = true;
+            string nome;
+            do
+            {
+                Console.WriteLine("Inserisci un nome per il tuo mostro");
+                nome = Console.ReadLine();
+                mostro.Nome = nome;
+
+                List<Mostro> mostri = bl.FetchMostri();
+
+                bool trovato = false;
+
+                foreach (var item in mostri)
+                {
+                    if (item.Nome == nome)
+                    {
+                        trovato = true;
+
+                        break;
+                    }
+                }
+                if (trovato)
+                {
+                    Console.WriteLine("Nome già in uso per un altro mostro");
+                }
+                else
+                {
+                    Console.WriteLine("\nScegli la categoria per il tuo mostro:");
+
+                    List<Categoria> categorie = bl.FetchCategorieMostri();
+
+
+                    foreach (var item in categorie)
+                    {
+                        Console.WriteLine($"\nDigita {item.Id} per scegliere la Categoria {item.Nome}");
+                    }
+
+                    int categoriaScelta;
+
+                    while (!int.TryParse(Console.ReadLine(), out categoriaScelta))
+                    {
+                        Console.WriteLine("Inserire valore corretto!");
+                    }
+
+                    Categoria categoriaMostro = bl.GetCategoriaById(categoriaScelta);
+
+
+                    Console.WriteLine("\nScegli l'arma per il tuo mostro:");
+                    List<Arma> armi = bl.FetchArmiPerCategoria(categoriaScelta);
+
+                    foreach (var item in armi)
+                    {
+                        Console.WriteLine($"\nDigita {item.Id} per scegliere l'arma {item.Nome} che ha punti danno pari a {item.PuntiDanno}");
+                    }
+
+                    int armaScelta;
+
+                    while (!int.TryParse(Console.ReadLine(), out armaScelta))
+                    {
+                        Console.WriteLine("Inserire valore corretto!");
+                    }
+
+                    Arma armaMostro = bl.GetArmaById(armaScelta);
+
+                    Console.WriteLine("Scegli il Livello per il tuo mostro, da 1 a 5:");
+                    int livelloScelto;
+                    while (!int.TryParse(Console.ReadLine(), out livelloScelto) || livelloScelto < 1 || livelloScelto > 5) ;
+                    {
+                        Console.WriteLine("Inserire valore corretto!");
+                    }
+
+                    switch (livelloScelto)
+                    {
+                        case 1:
+                            mostro.PuntiVita = 20;
+                            break;
+                        case 2:
+                            mostro.PuntiVita = 40;
+                            break;
+                        case 3:
+                            mostro.PuntiVita = 60;
+                            break;
+                        case 4:
+                            mostro.PuntiVita = 80;
+                            break;
+                        case 5:
+                            mostro.PuntiVita = 100;
+                            break;
+                    }
+
+                    mostro._Categoria = categoriaMostro;
+                    mostro._Arma = armaMostro;
+                    mostro.Livello = livelloScelto;
+                    mostro = bl.InserisciMostro(mostro);
+                    Console.WriteLine("Mostro creato correttamente.");
+
+                }
+                if (giocatore.IsAdmin == false)
+                {
+                    MenuNotAdmin(giocatore);
+                }
+                else
+                {
+                    MenuAdmin(giocatore);
+                }
+            } while (continua);
+
+
+        }
+
+
         private static void Gioca(Giocatore giocatore)
         {
             Console.Clear();

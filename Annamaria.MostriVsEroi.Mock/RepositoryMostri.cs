@@ -18,9 +18,25 @@ namespace Annamaria.MostriVsEroi.Mock
        
         };
 
+        public Mostro AddMostro(Mostro mostro)
+        {
+
+            if (mostri.Count() == 0)
+            {
+                mostro.Id = 1;
+            }
+            else
+            {
+                mostro.Id = mostri.Max(g => g.Id) + 1;
+            }
+
+            mostri.Add(mostro);
+            return mostro;
+        }
+
         public List<Mostro> Fetch()
         {
-            throw new NotImplementedException();
+            return mostri;
         }
 
         public List<Mostro> GetByLivello(int livello)

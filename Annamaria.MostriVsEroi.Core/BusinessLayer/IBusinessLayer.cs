@@ -25,5 +25,7 @@ namespace Annamaria.MostriVsEroi.Core.BusinessLayer
         Eroe GetEroeById(int scelta);
         Mostro GeneraMostro(int livello);
         void EliminaEroe(Eroe eroeDaCancellare);
+        List<Mostro> FetchMostri();
+        Mostro InserisciMostro(Mostro mostro);
     }
 }

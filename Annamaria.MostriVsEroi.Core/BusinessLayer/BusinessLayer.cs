@@ -63,6 +63,11 @@ namespace Annamaria.MostriVsEroi.Core.BusinessLayer
             return giocatoriRep.Fetch();
         }
 
+        public List<Mostro> FetchMostri()
+        {
+            return mostriRep.Fetch();
+        }
+
         public Mostro GeneraMostro(int livello)
         {
             List<Mostro> mostri = mostriRep.GetByLivello(livello);
@@ -98,13 +103,17 @@ namespace Annamaria.MostriVsEroi.Core.BusinessLayer
             return giocatoriRep.AddGiocatore(giocatore);
         }
 
+        public Mostro InserisciMostro(Mostro mostro)
+        {
+            return mostriRep.AddMostro(mostro);
+        }
+
         public Giocatore VerificaAccesso(Giocatore giocatore)
         {
             giocatore = giocatoriRep.GetGiocatoreByNomePassword(giocatore);
             if(giocatore != null)
             {
                 giocatore.IsAuthenticated = true;
-                giocatore.IsAdmin = false;
             }
 
             return giocatore;

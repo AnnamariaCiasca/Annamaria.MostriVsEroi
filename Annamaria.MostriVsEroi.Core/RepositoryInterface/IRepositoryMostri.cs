@@ -10,5 +10,6 @@ namespace Annamaria.MostriVsEroi.Core.RepositoryInterface
     public interface IRepositoryMostri : IRepository<Mostro>
     {
         List<Mostro> GetByLivello(int livello);
+        Mostro AddMostro(Mostro mostro);
     }
 }
