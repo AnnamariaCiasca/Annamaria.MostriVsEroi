@@ -14,7 +14,8 @@ namespace Annamaria.MostriVsEroi.AdoRepository
         const string connectionString = @"Data Source = (localdb)\MSSQLLocalDB;" +
                                       "Initial Catalog = MostriVsEroi;" +
                                       "Integrated Security = true";
-
+      
+        
         public Giocatore AddGiocatore(Giocatore giocatore)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -70,14 +71,10 @@ namespace Annamaria.MostriVsEroi.AdoRepository
 
         public Giocatore GetGiocatoreByNomePassword(Giocatore giocatore)
         {
-            string nome = giocatore.Nome;
-            string password = giocatore.Password;
-       
-
+           
             using (SqlConnection connection = new SqlConnection(connectionString))
             { 
-              
-            
+
                 connection.Open();
 
                 SqlCommand command = new SqlCommand();
@@ -89,20 +86,21 @@ namespace Annamaria.MostriVsEroi.AdoRepository
                     " WHERE dbo.Giocatore.Nome = @nome AND dbo.Giocatore.Password = @password";
                 command.Parameters.AddWithValue("@nome", giocatore.Nome);
                 command.Parameters.AddWithValue("@password", giocatore.Password);
-      
+
 
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    giocatore.Id = (int)reader["IdGiocatore"];
+                    giocatore.Id = (int)reader["Id"];
                     giocatore.IsAdmin = (bool)reader["IsAdmin"];
                     giocatore.IsAuthenticated = (bool)reader["IsAuthenticated"];
                 }
-               
+
             }
-            
+
             return giocatore;
         }
+
 
         public string UserById(int idGiocatore)
         {

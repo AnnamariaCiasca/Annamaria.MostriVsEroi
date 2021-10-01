@@ -53,6 +53,16 @@ namespace Annamaria.MostriVsEroi.Mock
             return armi.Where(a => a.IdCategoria == categoriaScelta).ToList();
         }
 
+        public Arma GetArmaByEroe(Eroe eroe)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Arma GetArmaByMostro(Mostro mostroScelto)
+        {
+            throw new NotImplementedException();
+        }
+
         public Arma GetById(int armaScelta)
         {
             return armi.Where(a => a.Id == armaScelta).FirstOrDefault();

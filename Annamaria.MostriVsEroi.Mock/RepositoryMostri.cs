@@ -35,6 +35,11 @@ namespace Annamaria.MostriVsEroi.Mock
             return mostro;
         }
 
+        public Mostro AddMostro(Mostro mostro, int categoriaScelta, int armaScelta)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Mostro> Fetch()
         {
             return mostri;

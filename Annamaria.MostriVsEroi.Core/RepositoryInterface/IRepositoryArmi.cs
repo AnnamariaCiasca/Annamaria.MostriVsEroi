@@ -11,5 +11,7 @@ namespace Annamaria.MostriVsEroi.Core.RepositoryInterface
     {
         List<Arma> FetchArmiPerCategoria(int categoriaScelta);
         Arma GetById(int armaScelta);
+        Arma GetArmaByEroe(Eroe eroe);
+        Arma GetArmaByMostro(Mostro mostroScelto);
     }
 }

@@ -12,5 +12,7 @@ namespace Annamaria.MostriVsEroi.Core.RepositoryInterface
         List<Categoria> FetchCategorieEroi();
         List<Categoria> FetchCategorieMostri();
         Categoria GetById(int categoriaScelta);
+        Categoria GetCategoriaByEroe(Eroe eroe);
+        Categoria GetCategoriaByMostro(Mostro mostroScelto);
     }
 }

@@ -56,7 +56,41 @@ namespace Annamaria.MostriVsEroi.AdoRepository
 
         public List<Eroe> Fetch()
         {
-            throw new NotImplementedException();
+            List<Eroe> eroi = new List<Eroe>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand();
+                command.Connection = connection;
+                command.CommandType = System.Data.CommandType.Text;
+                command.CommandText = "SELECT * FROM dbo.Eroe";
+ 
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Categoria categoria = new Categoria();
+                    Giocatore giocatore = new Giocatore();
+                    Arma arma = new Arma();
+                    Eroe eroe = new Eroe();
+
+                    eroe.Id = (int)reader["Id"];
+                    eroe.Nome = (string)reader["Nome"];
+                    categoria.Id = (int)reader["IdCategoria"];
+                    arma.Id = (int)reader["IdArma"];
+                    eroe.Livello = (int)reader["Livello"];
+                    eroe.PuntiVita = (int)reader["PuntiVita"];
+                    eroe.PuntiAccumulati = (int)reader["PuntiAccumulati"];
+
+                    eroi.Add(eroe);
+
+                }
+                return eroi;
+            }
+
         }
 
         public List<Eroe> FetchByGiocatore(int idGiocatore)
@@ -71,7 +105,7 @@ namespace Annamaria.MostriVsEroi.AdoRepository
                 command.Connection = connection;
                 command.CommandType = System.Data.CommandType.Text;
                 command.CommandText = "" +
-                    " SELECT dbo.Eroe.Id, dbo.Eroe.Nome, dbo.Categoria.Nome, dbo.Arma.Nome, dbo.Eroe.Livello, dbo.Eroe.PuntiVita, dbo.Eroe.PuntiAccumulati " +
+                    " SELECT dbo.Eroe.Id, dbo.Eroe.Nome, dbo.Eroe.IdCategoria, dbo.Eroe.IdArma, dbo.Categoria.Nome as NomeCategoria, dbo.Arma.Nome as NomeArma, dbo.Eroe.Livello, dbo.Eroe.PuntiVita, dbo.Eroe.PuntiAccumulati " +
                     " FROM dbo.Eroe  " +
                     " JOIN dbo.Categoria ON dbo.Categoria.Id = dbo.Eroe.IdCategoria" +
                     " JOIN dbo.Arma ON dbo.Arma.Id = dbo.Eroe.IdArma" +
@@ -80,19 +114,18 @@ namespace Annamaria.MostriVsEroi.AdoRepository
 
                 SqlDataReader reader = command.ExecuteReader();
 
-           
-
                 while (reader.Read())
                 {
                     Categoria categoria = new Categoria();
-                    Giocatore giocatore = new Giocatore();
                     Arma arma = new Arma();
                     Eroe eroe = new Eroe();
 
                     eroe.Id = (int)reader["Id"];
                     eroe.Nome = (string)reader["Nome"];
+                    categoria.Nome = (string)reader["NomeCategoria"];
                     categoria.Id = (int)reader["IdCategoria"];
                     arma.Id = (int)reader["IdArma"];
+                    arma.Nome = (string)reader["NomeArma"];
                     eroe.Livello = (int)reader["Livello"];
                     eroe.PuntiVita = (int)reader["PuntiVita"];
                     eroe.PuntiAccumulati = (int)reader["PuntiAccumulati"];
@@ -141,6 +174,7 @@ namespace Annamaria.MostriVsEroi.AdoRepository
         public Eroe GetById(int scelta)
         {
             Eroe eroe = new Eroe();
+            eroe.Id = scelta;
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {

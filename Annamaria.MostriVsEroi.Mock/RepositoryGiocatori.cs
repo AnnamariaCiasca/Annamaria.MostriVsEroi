@@ -44,6 +44,8 @@ namespace Annamaria.MostriVsEroi.Mock
             return giocatori.Where(g => g.Nome == giocatore.Nome && g.Password == giocatore.Password).SingleOrDefault();
         }
 
+   
+
         public string UserById(int idGiocatore)
         {
          

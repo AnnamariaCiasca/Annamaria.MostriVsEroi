@@ -83,14 +83,34 @@ namespace Annamaria.MostriVsEroi.Core.BusinessLayer
             return mostri[index];
         }
 
+        public Arma GetArmaByEroe(Eroe eroe)
+        {
+            return armiRep.GetArmaByEroe(eroe);
+        }
+
         public Arma GetArmaById(int armaScelta)
         {
             return armiRep.GetById(armaScelta);
         }
 
+        public Arma GetArmaByMostro(Mostro mostroScelto)
+        {
+            return armiRep.GetArmaByMostro(mostroScelto);
+        }
+
+        public Categoria GetCategoriaByEroe(Eroe eroe)
+        {
+            return categorieRep.GetCategoriaByEroe(eroe);
+        }
+
         public Categoria GetCategoriaById(int categoriaScelta)
         {
             return categorieRep.GetById(categoriaScelta);
+        }
+
+        public Categoria GetCategoriaByMostro(Mostro mostroScelto)
+        {
+            return categorieRep.GetCategoriaByMostro(mostroScelto);
         }
 
         public Eroe GetEroeById(int scelta)
@@ -109,9 +129,9 @@ namespace Annamaria.MostriVsEroi.Core.BusinessLayer
             return giocatoriRep.AddGiocatore(giocatore);
         }
 
-        public Mostro InserisciMostro(Mostro mostro)
+        public Mostro InserisciMostro(Mostro mostro, int categoriaScelta, int armaScelta)
         {
-            return mostriRep.AddMostro(mostro);
+            return mostriRep.AddMostro(mostro, categoriaScelta, armaScelta);
         }
 
         public string UserGiocatoreById(int idGiocatore)
@@ -122,13 +142,8 @@ namespace Annamaria.MostriVsEroi.Core.BusinessLayer
 
         public Giocatore VerificaAccesso(Giocatore giocatore)
         {
-            giocatore = giocatoriRep.GetGiocatoreByNomePassword(giocatore);
-            if(giocatore != null)
-            {
-                giocatore.IsAuthenticated = true;
-            }
-
-            return giocatore;
+          return giocatoriRep.GetGiocatoreByNomePassword(giocatore);
+      
         }
     }
 }

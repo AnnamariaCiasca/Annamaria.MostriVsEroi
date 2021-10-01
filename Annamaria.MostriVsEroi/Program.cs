@@ -4,17 +4,19 @@ using Annamaria.MostriVsEroi.Core.Entities;
 using Annamaria.MostriVsEroi.Mock;
 using System;
 using System.Collections.Generic;
+using System.Threading;
+
 
 namespace Annamaria.MostriVsEroi
 {
 
-    // Arianna -> non devi fare il dbManager, usi sempre il bl... riscrivi solo le classi repository
+  
     class Program
     {
         //private static readonly IBusinessLayer bl = new BusinessLayer(new RepositoryArmi(), new RepositoryCategorie(), new RepositoryEroi(), new RepositoryGiocatori(), new RepositoryMostri());
         private static readonly IBusinessLayer bl = new BusinessLayer(new AdoRepositoryArma(), new AdoRepositoryCategoria(), new AdoRepositoryEroe(), new AdoRepositoryGiocatore(), new AdoRepositoryMostro());
 
-        //private static readonly DBManager dbm = new DBManager();
+
         static void Main(string[] args)
         {
             Console.WriteLine("Benvenuto!");
@@ -61,7 +63,7 @@ namespace Annamaria.MostriVsEroi
             } while (continua);
         }
 
-        private static void Registrati()
+        private static void Registrati() //OK
         {
             Giocatore giocatore = new Giocatore();
             bool continua = true;
@@ -73,7 +75,7 @@ namespace Annamaria.MostriVsEroi
                 giocatore.Nome = nome;
 
                 List<Giocatore> giocatori = bl.FetchGiocatori();
-                //List<Giocatore> giocatori = dbm.FetchGiocatori();
+               
 
                 bool trovato = false;
 
@@ -98,7 +100,7 @@ namespace Annamaria.MostriVsEroi
                     giocatore.Password = password;
 
                     giocatore = bl.InserisciGiocatore(giocatore);
-                      //giocatore = dbm.InserisciGiocatore(giocatore);
+                   
 
                     Console.Write("Registrazione avvenuta con successo");
                     continua = false;
@@ -109,7 +111,7 @@ namespace Annamaria.MostriVsEroi
             MenuNotAdmin(giocatore);
         }
 
-        private static void Accedi()
+        private static void Accedi() //OK
         {
 
             Console.WriteLine("\nInserisci il tuo nome");
@@ -120,8 +122,8 @@ namespace Annamaria.MostriVsEroi
 
             Giocatore giocatore = new Giocatore(nome, password);
             
-            giocatore = bl.VerificaAccesso(giocatore);
-            //giocatore = dbm.VerificaAccesso(giocatore);
+           giocatore = bl.VerificaAccesso(giocatore);
+            
          
             if (giocatore != null && giocatore.IsAuthenticated && giocatore.IsAdmin)
             {
@@ -133,14 +135,14 @@ namespace Annamaria.MostriVsEroi
                 Console.WriteLine("\nAccesso eseguito");
                 MenuNotAdmin(giocatore);
             }
-            else if (giocatore == null)
+            else
             {
                 Console.WriteLine("Username e/o Password errati");
             }
 
         }
 
-        private static void MenuNotAdmin(Giocatore giocatore)
+        private static void MenuNotAdmin(Giocatore giocatore) //OK
         {
             bool continua = true;
             int scelta;
@@ -184,8 +186,7 @@ namespace Annamaria.MostriVsEroi
 
         }
 
-
-        private static void MenuAdmin(Giocatore giocatore)
+        private static void MenuAdmin(Giocatore giocatore) //OK
         {
             bool continua = true;
             int scelta;
@@ -236,19 +237,19 @@ namespace Annamaria.MostriVsEroi
             } while (continua);
         }
 
-        private static void MostraClassifica()
+        private static void MostraClassifica()  //OK
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("--------------------------------------Classifica---------------------------------------");
             Console.ForegroundColor = ConsoleColor.White;
             List<Eroe> eroiClassifica = bl.FetchEroiPerPunti();
-            //List<Eroe> eroiClassifica = dbm.FetchEroiPerPunti();
+         
             string username;
             int i = 1;
             foreach (var item in eroiClassifica)
             {
                 username = bl.UserGiocatoreById(item.IdGiocatore);
-                //username = dbm.UserGiocatoreById(item.IdGiocatore);
+      
                 Console.WriteLine($"{i}) Eroe: {item.Nome} - Livello: {item.Livello} - Punti: {item.PuntiAccumulati} - Giocatore: {username}");
                 i++;
             }
@@ -257,18 +258,18 @@ namespace Annamaria.MostriVsEroi
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        private static void EliminaEroe(Giocatore giocatore)
+        private static void EliminaEroe(Giocatore giocatore) //OK
         {
             Console.Clear();
             int scelta;
             Console.WriteLine("Ecco la lista degli eroi:\n");
-            // Arianna -> TODO
+          
 
-            List<Eroe> eroi = bl.FetchEroiByGiocatore(giocatore.Id);  //non funziona perché mi passa sempre IdGiocatore = 0, sbaglio qualcosa nel metodo  GetGiocatoreByNomePassword in AdoRepositoryEroe
-                                                                    // Arianna -> prova a mandarmi l'estazione del db che verifico
+            List<Eroe> eroi = bl.FetchEroiByGiocatore(giocatore.Id);  
+                                                                   
             foreach (var item in eroi)
             {
-                Console.WriteLine(item.Print());
+                Console.WriteLine($"Nome: {item.Nome}  - Livello: {item.Livello} - Punti Vita: {item.PuntiVita}");
             }
             Console.WriteLine("\n");
             foreach (var item in eroi)
@@ -280,44 +281,55 @@ namespace Annamaria.MostriVsEroi
             {
                 Console.WriteLine("Inserire valore corretto!");
             }
-
-            Eroe eroeDaCancellare = bl.GetEroeById(scelta);
+            Eroe eroeDaCancellare = new Eroe();
+            eroeDaCancellare = bl.GetEroeById(scelta);
             bl.EliminaEroe(eroeDaCancellare);
 
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("L'eroe selezionato è stato eliminato correttamente");
+            Console.ForegroundColor = ConsoleColor.White;
+
 
         }
 
 
-        private static void CreaEroe(Giocatore giocatore)
+        private static void CreaEroe(Giocatore giocatore)  //OK
         {
             Eroe eroe = new Eroe();
             bool continua = true;
+          
             string nome;
+            bool trovato = false;
             do
             {
-                Console.WriteLine("Inserisci un nome per il tuo eroe");
-                nome = Console.ReadLine();
-                eroe.Nome = nome;
-
-                List<Eroe> eroi = bl.FetchEroi();
-
-                bool trovato = false;
-
-                foreach (var item in eroi)
+                bool riprova;
+             
+                do
                 {
-                    if (item.Nome == nome)
+                    riprova = false;
+                    Console.WriteLine("Inserisci un nome per il tuo eroe");
+                    nome = Console.ReadLine();
+                    eroe.Nome = nome;
+
+                    List<Eroe> eroi = bl.FetchEroi();
+
+                    foreach (var item in eroi)
                     {
-                        trovato = true;
-
-                        break;
+                        if (item.Nome == nome)
+                        {
+                            trovato = true;
+                            riprova = true;
+                            break;
+                        }
                     }
-                }
-                if (trovato)
-                {
-                    Console.WriteLine("Nome già in uso per un altro eroe");
-                }
-                else
+                    if (trovato)
+                    {
+                        Console.WriteLine("\nNome già in uso per un altro eroe\nRiprova:\n");
+                        trovato = false;
+                    }
+                } while(riprova == true);
+                
+                if (trovato == false) 
                 {
                     Console.WriteLine("\nScegli la categoria per il tuo eroe:");
 
@@ -326,12 +338,12 @@ namespace Annamaria.MostriVsEroi
 
                     foreach (var item in categorie)
                     {
-                        Console.WriteLine($"\nDigita {item.Id} per scegliere la Categoria {item.Nome}");
+                        Console.WriteLine($"Digita {item.Id} per scegliere la Categoria {item.Nome}");
                     }
 
                     int categoriaScelta;
 
-                    while (!int.TryParse(Console.ReadLine(), out categoriaScelta))
+                    while (!int.TryParse(Console.ReadLine(), out categoriaScelta) || categoriaScelta > categorie.Count)
                     {
                         Console.WriteLine("Inserire valore corretto!");
                     }
@@ -339,17 +351,17 @@ namespace Annamaria.MostriVsEroi
                     Categoria categoriaEroe = bl.GetCategoriaById(categoriaScelta);
 
 
-                    Console.WriteLine("\nScegli l'arma per il tuo eroe:");
+                    Console.WriteLine("\n\nScegli l'arma per il tuo eroe:");
                     List<Arma> armi = bl.FetchArmiPerCategoria(categoriaScelta);
 
                     foreach (var item in armi)
                     {
-                        Console.WriteLine($"\nDigita {item.Id} per scegliere l'arma {item.Nome} che ha punti danno pari a {item.PuntiDanno}");
+                        Console.WriteLine($"Digita {item.Id} per scegliere l'arma {item.Nome} che ha punti danno pari a {item.PuntiDanno}");
                     }
 
                     int armaScelta;
 
-                    while (!int.TryParse(Console.ReadLine(), out armaScelta))
+                    while (!int.TryParse(Console.ReadLine(), out armaScelta) || armaScelta > armi.Count)
                     {
                         Console.WriteLine("Inserire valore corretto!");
                     }
@@ -364,8 +376,10 @@ namespace Annamaria.MostriVsEroi
                     eroe.IdGiocatore = giocatore.Id;
 
                     eroe = bl.InserisciEroe(eroe, categoriaScelta, armaScelta, giocatore);
-                    //eroe = dbm.InserisciEroe(eroe, categoriaScelta, armaScelta, giocatore);
+
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Eroe creato correttamente.");
+                    Console.ForegroundColor = ConsoleColor.White;
 
                 }
                 if (giocatore.IsAdmin == false)
@@ -382,35 +396,43 @@ namespace Annamaria.MostriVsEroi
         }
 
 
-        private static void CreaMostro(Giocatore giocatore)
+        private static void CreaMostro(Giocatore giocatore)  //OK
         {
             Mostro mostro = new Mostro();
             bool continua = true;
+            bool trovato = false;
             string nome;
             do
             {
-                Console.WriteLine("Inserisci un nome per il tuo mostro");
-                nome = Console.ReadLine();
-                mostro.Nome = nome;
-
-                List<Mostro> mostri = bl.FetchMostri();
-
-                bool trovato = false;
-
-                foreach (var item in mostri)
+                bool riprova;
+                do
                 {
-                    if (item.Nome == nome)
+                    riprova = false;
+                    Console.WriteLine("Inserisci un nome per il tuo mostro");
+                    nome = Console.ReadLine();
+                    mostro.Nome = nome;
+
+                    List<Mostro> mostri = bl.FetchMostri();
+
+
+
+                    foreach (var item in mostri)
                     {
-                        trovato = true;
+                        if (item.Nome == nome)
+                        {
+                            trovato = true;
+                            riprova = true;
 
-                        break;
+                            break;
+                        }
                     }
-                }
-                if (trovato)
-                {
-                    Console.WriteLine("Nome già in uso per un altro mostro");
-                }
-                else
+                    if (trovato)
+                    {
+                        Console.WriteLine("\nNome già in uso per un altro mostro\nRiprova:\n");
+                        trovato = false;
+                    }
+                } while (riprova == true);
+                if(trovato == false)
                 {
                     Console.WriteLine("\nScegli la categoria per il tuo mostro:");
 
@@ -478,8 +500,11 @@ namespace Annamaria.MostriVsEroi
                     mostro._Categoria = categoriaMostro;
                     mostro._Arma = armaMostro;
                     mostro.Livello = livelloScelto;
-                    mostro = bl.InserisciMostro(mostro);
+                    mostro = bl.InserisciMostro(mostro, categoriaScelta, armaScelta);
+
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("\nMostro creato correttamente.");
+                    Console.ForegroundColor = ConsoleColor.White;
 
                 }
                 if (giocatore.IsAdmin == false)
@@ -496,16 +521,23 @@ namespace Annamaria.MostriVsEroi
         }
 
 
-        private static void Gioca(Giocatore giocatore)
+        private static void Gioca(Giocatore giocatore) //OK
         {
             Console.Clear();
             int scelta;
             Console.WriteLine("Ecco la lista degli eroi con cui puoi giocare:\n");
+            Categoria categoria = new Categoria();
+            Arma arma = new Arma();
             List<Eroe> eroi = bl.FetchEroiByGiocatore(giocatore.Id);
             foreach (var item in eroi)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(item.Print());
+                //Console.WriteLine(item.Print());
+
+                categoria = bl.GetCategoriaByEroe(item);
+                arma = bl.GetArmaByEroe(item);
+
+                Console.WriteLine($"Nome: {item.Nome} - Categoria: {categoria.Nome} - Arma: {arma.Nome} con PuntiDanno: {arma.PuntiDanno} - Livello: {item.Livello} - Punti Vita: {item.PuntiVita} - Punti Accumulati: {item.PuntiAccumulati}");
                 Console.ForegroundColor = ConsoleColor.White;
             }
             Console.WriteLine("\nOra è il momento di fare la tua scelta\n");
@@ -524,11 +556,17 @@ namespace Annamaria.MostriVsEroi
             GenerazioneMostro(eroeScelto, giocatore);
         }
 
-        private static void GenerazioneMostro(Eroe eroeScelto, Giocatore giocatore)
+        private static void GenerazioneMostro(Eroe eroeScelto, Giocatore giocatore) //OK
         {
             CalcoloLivello(eroeScelto, giocatore);
             Mostro mostroScelto = bl.GeneraMostro(eroeScelto.Livello);
-            // Arianna -> Perchè? I tuoi mostri hanno già i punti vita come proprietà 
+            Categoria categoria = new Categoria();
+            Arma arma = new Arma();
+
+            categoria = bl.GetCategoriaByMostro(mostroScelto);
+            arma = bl.GetArmaByMostro(mostroScelto);
+
+
             if (mostroScelto.Livello == 1)
             {
                 mostroScelto.PuntiVita = 20;
@@ -551,14 +589,21 @@ namespace Annamaria.MostriVsEroi
             }
 
             Console.WriteLine($"\nIl tuo eroe {eroeScelto.Nome} dovrà sfidare il mostro:");
+            Thread.Sleep(500);
+            Console.WriteLine(".");
+            Thread.Sleep(500);
+            Console.WriteLine(".");
+            Thread.Sleep(500);
+            Console.WriteLine(".");
+            Thread.Sleep(500);
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(mostroScelto.Print());
+            Console.WriteLine($"Nome: {mostroScelto.Nome} - Categoria: {categoria.Nome} - Arma: {arma.Nome} con PuntiDanno: {arma.PuntiDanno} - Livello: {mostroScelto.Livello} - Punti Vita: {mostroScelto.PuntiVita} ");
             Console.ForegroundColor = ConsoleColor.White;
 
             Partita(eroeScelto, mostroScelto, giocatore);
         }
 
-        private static void CalcoloLivello(Eroe eroeScelto, Giocatore giocatore)
+        private static void CalcoloLivello(Eroe eroeScelto, Giocatore giocatore) //OK
         {
             int lvl = eroeScelto.Livello;
 
@@ -640,7 +685,7 @@ namespace Annamaria.MostriVsEroi
             }
         }
 
-        private static void Partita(Eroe eroeScelto, Mostro mostroScelto, Giocatore giocatore)
+        private static void Partita(Eroe eroeScelto, Mostro mostroScelto, Giocatore giocatore) //OK
         {
 
             Console.WriteLine($"\nBene {giocatore.Nome}, giochiamo!");
@@ -690,11 +735,20 @@ namespace Annamaria.MostriVsEroi
             } while (continua);
         }
 
-        private static void Fuggi(Eroe eroeScelto, Mostro mostroScelto, bool continua, Giocatore giocatore)
+        private static void Fuggi(Eroe eroeScelto, Mostro mostroScelto, bool continua, Giocatore giocatore) //OK
         {
+            Console.Clear();
+            Console.WriteLine("\n--------------------------------------TURNO DELL'EROE---------------------------------------");
             Random r = new Random();
             int uscita = r.Next(0, 2);
             bool fugaRiuscita = Convert.ToBoolean(uscita);
+            Thread.Sleep(500);
+            Console.WriteLine(".");
+            Thread.Sleep(500);
+            Console.WriteLine(".");
+            Thread.Sleep(500);
+            Console.WriteLine(".");
+            Thread.Sleep(500);
             if (!fugaRiuscita)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -708,6 +762,10 @@ namespace Annamaria.MostriVsEroi
                 Console.WriteLine("Fuga riuscita");
                 Console.ForegroundColor = ConsoleColor.White;
                 eroeScelto.PuntiAccumulati = eroeScelto.PuntiAccumulati - (mostroScelto.Livello * 5);
+                if(eroeScelto.PuntiAccumulati <= 0)  //non faccio andare punti accumulati in negativo
+                {
+                    eroeScelto.PuntiAccumulati = 0;
+                }
                 Console.WriteLine($"Ora il tuo eroe possiede {eroeScelto.PuntiAccumulati} punti");
 
                 ContinuareGioco(eroeScelto, mostroScelto, giocatore);
@@ -715,16 +773,29 @@ namespace Annamaria.MostriVsEroi
 
         }
 
-        private static void AttaccaEroe(Eroe eroeScelto, Mostro mostroScelto, bool continua, Giocatore giocatore)
+        private static void AttaccaEroe(Eroe eroeScelto, Mostro mostroScelto, bool continua, Giocatore giocatore) //OK
         {
+            
+            Categoria categoriaEroe = new Categoria();
+            Arma armaEroe = new Arma();
+
+            categoriaEroe = bl.GetCategoriaByEroe(eroeScelto);
+            armaEroe = bl.GetArmaByEroe(eroeScelto);
+
             Console.Clear();
+            Console.WriteLine("\n--------------------------------------TURNO DELL'EROE---------------------------------------");
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"\nL'eroe {eroeScelto.Nome} attacca il mostro {mostroScelto.Nome}");
+            Console.WriteLine($"\nL'eroe {eroeScelto.Nome} attacca il mostro {mostroScelto.Nome} con l'arma {armaEroe.Nome} infliggendogli {armaEroe.PuntiDanno} punti danno");
             Console.ForegroundColor = ConsoleColor.White;
-            int vitaRimastaMostro = mostroScelto.PuntiVita - eroeScelto._Arma.PuntiDanno;
-            Console.WriteLine($"\nI punti vita del mostro ora sono: {vitaRimastaMostro}");
+
+            //int vitaRimastaMostro = mostroScelto.PuntiVita - eroeScelto._Arma.PuntiDanno;
+            int vitaRimastaMostro = mostroScelto.PuntiVita - armaEroe.PuntiDanno;
+
+           
             if (vitaRimastaMostro <= 0)
             {
+                vitaRimastaMostro = 0; //per non fargli assumere valori negativi
+                Console.WriteLine($"\nI punti vita del mostro ora sono: 0 ");
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"\nComplimenti, il tuo eroe ha vinto!");
                 eroeScelto.PuntiAccumulati = eroeScelto.PuntiAccumulati + (mostroScelto.Livello * 10);
@@ -736,24 +807,33 @@ namespace Annamaria.MostriVsEroi
             }
             else
             {
+                Console.WriteLine($"\nI punti vita del mostro ora sono: {vitaRimastaMostro}");
                 mostroScelto.PuntiVita = vitaRimastaMostro;
                 AttaccaMostro(eroeScelto, mostroScelto, continua, giocatore);
 
             }
         }
 
-        private static void AttaccaMostro(Eroe eroeScelto, Mostro mostroScelto, bool continua, Giocatore giocatore)
+        private static void AttaccaMostro(Eroe eroeScelto, Mostro mostroScelto, bool continua, Giocatore giocatore) //OK
         {
-            Console.WriteLine("\n------------------------------------------------------------------");
+            Console.WriteLine("\n--------------------------------------TURNO DEL MOSTRO--------------------------------------");
+            Categoria categoriaMostro = new Categoria();
+            Arma armaMostro = new Arma();
+
+            categoriaMostro = bl.GetCategoriaByMostro(mostroScelto);
+            armaMostro = bl.GetArmaByMostro(mostroScelto);
+
+         
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"\nIl mostro {mostroScelto.Nome} attacca l'eroe {eroeScelto.Nome}");
+            Console.WriteLine($"\nIl mostro {mostroScelto.Nome} attacca l'eroe {eroeScelto.Nome} con l'arma {armaMostro.Nome} infliggendogli {armaMostro.PuntiDanno} punti danno");
             Console.ForegroundColor = ConsoleColor.White;
-            int vitaRimastaEroe = eroeScelto.PuntiVita - mostroScelto._Arma.PuntiDanno;
+            int vitaRimastaEroe = eroeScelto.PuntiVita - armaMostro.PuntiDanno;
             Console.WriteLine($"\nI punti vita del tuo eroe ora sono: {vitaRimastaEroe}");
 
 
             if (vitaRimastaEroe <= 0)
             {
+                vitaRimastaEroe = 0; //lo faccio per non fargli assumere valori negativi
                 Console.WriteLine($"\nPeccato, il tuo eroe ha perso!");
                 Console.WriteLine($"Ora il tuo eroe possiede {eroeScelto.PuntiAccumulati} punti");
 
@@ -768,7 +848,7 @@ namespace Annamaria.MostriVsEroi
 
         }
 
-        private static void ContinuareGioco(Eroe eroeScelto, Mostro mostroScelto, Giocatore giocatore)
+        private static void ContinuareGioco(Eroe eroeScelto, Mostro mostroScelto, Giocatore giocatore) //OK
         {
             CalcoloLivello(eroeScelto, giocatore);
             Console.WriteLine("\n\nVuoi continuare a giocare? Scrivi Si o No");
@@ -788,7 +868,7 @@ namespace Annamaria.MostriVsEroi
                     case 1:
                         Console.WriteLine("\nOk, giocherai ancora con l'eroe");
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"{eroeScelto.Print()}\n");
+                        Console.WriteLine($"{eroeScelto.Nome}\n");
                         Console.ForegroundColor = ConsoleColor.White;
                         GenerazioneMostro(eroeScelto, giocatore);
                         break;

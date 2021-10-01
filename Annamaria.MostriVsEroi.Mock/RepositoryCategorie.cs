@@ -42,5 +42,15 @@ namespace Annamaria.MostriVsEroi.Mock
         {
             return categorie.Where(c => c.Id == categoriaScelta).FirstOrDefault();
         }
+
+        public Categoria GetCategoriaByEroe(Eroe eroe)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Categoria GetCategoriaByMostro(Mostro mostroScelto)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

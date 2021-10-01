@@ -26,8 +26,12 @@ namespace Annamaria.MostriVsEroi.Core.BusinessLayer
         Mostro GeneraMostro(int livello);
         void EliminaEroe(Eroe eroeDaCancellare);
         List<Mostro> FetchMostri();
-        Mostro InserisciMostro(Mostro mostro);
+        Mostro InserisciMostro(Mostro mostro, int categoriaScelta, int armaScelta);
         List<Eroe> FetchEroiPerPunti();
         string UserGiocatoreById(int idGiocatore);
+        Categoria GetCategoriaByEroe(Eroe item);
+        Arma GetArmaByEroe(Eroe item);
+        Categoria GetCategoriaByMostro(Mostro mostroScelto);
+        Arma GetArmaByMostro(Mostro mostroScelto);
     }
 }
