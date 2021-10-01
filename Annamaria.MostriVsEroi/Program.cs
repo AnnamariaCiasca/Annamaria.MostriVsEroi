@@ -529,31 +529,39 @@ namespace Annamaria.MostriVsEroi
             Categoria categoria = new Categoria();
             Arma arma = new Arma();
             List<Eroe> eroi = bl.FetchEroiByGiocatore(giocatore.Id);
-            foreach (var item in eroi)
+            if (eroi.Count == 0)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                //Console.WriteLine(item.Print());
-
-                categoria = bl.GetCategoriaByEroe(item);
-                arma = bl.GetArmaByEroe(item);
-
-                Console.WriteLine($"Nome: {item.Nome} - Categoria: {categoria.Nome} - Arma: {arma.Nome} con PuntiDanno: {arma.PuntiDanno} - Livello: {item.Livello} - Punti Vita: {item.PuntiVita} - Punti Accumulati: {item.PuntiAccumulati}");
-                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("*****ATTENZIONE******\nDevi prima creare almeno un eroe!\n");
+                CreaEroe(giocatore);
             }
-            Console.WriteLine("\nOra è il momento di fare la tua scelta\n");
-            foreach (var item in eroi)
+            else
             {
-                Console.WriteLine($"Digita {item.Id} per scegliere l'eroe {item.Nome}");
+                foreach (var item in eroi)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    //Console.WriteLine(item.Print());
+
+                    categoria = bl.GetCategoriaByEroe(item);
+                    arma = bl.GetArmaByEroe(item);
+
+                    Console.WriteLine($"Nome: {item.Nome} - Categoria: {categoria.Nome} - Arma: {arma.Nome} con PuntiDanno: {arma.PuntiDanno} - Livello: {item.Livello} - Punti Vita: {item.PuntiVita} - Punti Accumulati: {item.PuntiAccumulati}");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                Console.WriteLine("\nOra è il momento di fare la tua scelta\n");
+                foreach (var item in eroi)
+                {
+                    Console.WriteLine($"Digita {item.Id} per scegliere l'eroe {item.Nome}");
+                }
+
+                while (!int.TryParse(Console.ReadLine(), out scelta))
+                {
+                    Console.WriteLine("Inserire valore corretto!");
+                }
+
+                Eroe eroeScelto = bl.GetEroeById(scelta);
+
+                GenerazioneMostro(eroeScelto, giocatore);
             }
-
-            while (!int.TryParse(Console.ReadLine(), out scelta))
-            {
-                Console.WriteLine("Inserire valore corretto!");
-            }
-
-            Eroe eroeScelto = bl.GetEroeById(scelta);
-
-            GenerazioneMostro(eroeScelto, giocatore);
         }
 
         private static void GenerazioneMostro(Eroe eroeScelto, Giocatore giocatore) //OK
